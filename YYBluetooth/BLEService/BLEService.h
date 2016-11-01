@@ -1,0 +1,52 @@
+//
+//  BLEService.h
+//  QianShanJY
+//
+//  Created by iosdev on 16/3/3.
+//  Copyright © 2016年 chinasun. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import <CoreBluetooth/CoreBluetooth.h>
+#import "BabyBluetooth.h"
+
+typedef NS_ENUM(NSUInteger, BLEOrderType) {
+    BLEOrderTypeBegin = 0,
+    BLEOrderTypeStop,
+    BLEOrderTypeGetData,
+    BLEOrderTypeDeleteData,
+    BLEOrderAutoHalfHour,
+    BLEOrderAutoOneHour,
+    BLEOrderAutoTowfHour,
+};
+
+@interface BLEService : NSObject
+
+@property(nonatomic,strong)BabyBluetooth *babyBluetooth;
+
+@property(nonatomic,assign)int valueHigh;
+@property(nonatomic,assign)int valueLow;
+@property(nonatomic,assign)int valueHeart;
+@property(nonatomic,assign)int errorCode;
+@property(nonatomic,assign)int currValue;
+
++ (instancetype)sharedInstance;
+
+//开始扫描
+- (void)startScanConnectBLE;
+- (void)startScanBLETime:(NSInteger)time successBlock:(void (^)())successBlock failBlock:(void (^)())failBlock;
+
+
+
+//停止扫描
+- (void)pauseScanBLE;
+//断开所有连接
+- (void)cancelBLEConnection;
+
+
+//下发指令到设备
+- (void)writeOrderWithType:(BLEOrderType)orderType;
+
+- (void)bloodPressureStartBlock:(void (^)())startBlock retuneValueBlock:(void (^)())retuneValueBlock disConnectBlock:(void (^)())disConnectBlock failBlock:(void (^)())failBlock endBlock:(void (^)())endBlock;
+
+@end
