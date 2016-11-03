@@ -1,15 +1,14 @@
 //
-//  ViewController.h
+//  ScanDeviceTVC.h
 //  YYBluetooth
 //
-//  Created by iosdev on 2016/10/31.
+//  Created by iosdev on 2016/11/1.
 //  Copyright © 2016年 QSYJ. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
 
+@interface ScanDeviceTVC : UITableViewController
 
 @end
-
