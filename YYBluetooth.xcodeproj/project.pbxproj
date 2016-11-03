@@ -38,8 +38,8 @@
 		6AC9768E1DC70FF400D34497 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6AC976881DC70FF400D34497 /* SVProgressHUD.bundle */; };
 		6AC9768F1DC70FF400D34497 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC9768A1DC70FF400D34497 /* SVProgressHUD.m */; };
 		6AC976901DC70FF400D34497 /* SVRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC9768C1DC70FF400D34497 /* SVRadialGradientLayer.m */; };
-		6AF3CEF91DCB329A004AC9A3 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF3CEF71DCB329A004AC9A3 /* TestViewController.m */; };
-		6AF3CEFA1DCB329A004AC9A3 /* TestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF3CEF81DCB329A004AC9A3 /* TestViewController.xib */; };
+		9F3A94A51DCB94AE008639C5 /* TextViewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3A94A31DCB94AE008639C5 /* TextViewVC.m */; };
+		9F3A94A61DCB94AE008639C5 /* TextViewVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F3A94A41DCB94AE008639C5 /* TextViewVC.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,9 +119,9 @@
 		6AC9768A1DC70FF400D34497 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		6AC9768B1DC70FF400D34497 /* SVRadialGradientLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRadialGradientLayer.h; sourceTree = "<group>"; };
 		6AC9768C1DC70FF400D34497 /* SVRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVRadialGradientLayer.m; sourceTree = "<group>"; };
-		6AF3CEF61DCB329A004AC9A3 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
-		6AF3CEF71DCB329A004AC9A3 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
-		6AF3CEF81DCB329A004AC9A3 /* TestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestViewController.xib; sourceTree = "<group>"; };
+		9F3A94A21DCB94AE008639C5 /* TextViewVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewVC.h; sourceTree = "<group>"; };
+		9F3A94A31DCB94AE008639C5 /* TextViewVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewVC.m; sourceTree = "<group>"; };
+		9F3A94A41DCB94AE008639C5 /* TextViewVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextViewVC.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,13 +188,13 @@
 				6AA33FD81DC9D430009283B9 /* ConnectDeviceTVC.m */,
 				6AA33FD91DC9D430009283B9 /* ConnectDeviceTVC.xib */,
 				6AC976261DC6F60B00D34497 /* Main.storyboard */,
+				9F3A94A21DCB94AE008639C5 /* TextViewVC.h */,
+				9F3A94A31DCB94AE008639C5 /* TextViewVC.m */,
+				9F3A94A41DCB94AE008639C5 /* TextViewVC.xib */,
 				6AC976291DC6F60B00D34497 /* Assets.xcassets */,
 				6AC9762B1DC6F60B00D34497 /* LaunchScreen.storyboard */,
 				6AC9762E1DC6F60B00D34497 /* Info.plist */,
 				6AC9761D1DC6F60B00D34497 /* Supporting Files */,
-				6AF3CEF61DCB329A004AC9A3 /* TestViewController.h */,
-				6AF3CEF71DCB329A004AC9A3 /* TestViewController.m */,
-				6AF3CEF81DCB329A004AC9A3 /* TestViewController.xib */,
 			);
 			path = YYBluetooth;
 			sourceTree = "<group>";
@@ -426,9 +426,9 @@
 				6AA33FDB1DC9D430009283B9 /* ConnectDeviceTVC.xib in Resources */,
 				6AC9768E1DC70FF400D34497 /* SVProgressHUD.bundle in Resources */,
 				6AC9762D1DC6F60B00D34497 /* LaunchScreen.storyboard in Resources */,
+				9F3A94A61DCB94AE008639C5 /* TextViewVC.xib in Resources */,
 				6AC9762A1DC6F60B00D34497 /* Assets.xcassets in Resources */,
 				6AC976811DC70F1700D34497 /* ViewController.xib in Resources */,
-				6AF3CEFA1DCB329A004AC9A3 /* TestViewController.xib in Resources */,
 				6AC976281DC6F60B00D34497 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -466,6 +466,7 @@
 				6AC9768D1DC70FF400D34497 /* SVIndefiniteAnimatedView.m in Sources */,
 				6AC976821DC70F1700D34497 /* WriteValueVC.m in Sources */,
 				6AC976641DC70DE900D34497 /* BabyCentralManager.m in Sources */,
+				9F3A94A51DCB94AE008639C5 /* TextViewVC.m in Sources */,
 				6AC976631DC70DE900D34497 /* BabyCallback.m in Sources */,
 				6AC976901DC70FF400D34497 /* SVRadialGradientLayer.m in Sources */,
 				6AC9761F1DC6F60B00D34497 /* main.m in Sources */,
@@ -476,7 +477,6 @@
 				6AC9767D1DC70F1700D34497 /* CharacteristicViewController.m in Sources */,
 				6AC976671DC70DE900D34497 /* BabyRhythm.m in Sources */,
 				6AC976661DC70DE900D34497 /* BabyPeripheralManager.m in Sources */,
-				6AF3CEF91DCB329A004AC9A3 /* TestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,11 @@
 #import "BLEService.h"
 #import "SVProgressHUD.h"
 
-@interface ConnectDeviceTVC ()
+#import "TextViewVC.h"
+
+@interface ConnectDeviceTVC () {
+    NSArray *orderList;
+}
 
 @end
 
@@ -18,7 +22,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+//    [self.tableView cell]
+    orderList = @[@"停止测量",@"开始测量",@"读取时间",@"读取参数",@"读取缓存数据",@"清除缓存数据"];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -30,6 +35,8 @@
     } failBlock:^() {
         
     } startOrderBlock:^() {
+        //初始化完成，加载指令
+        
         //测量过程
         [self dealBLEData];
     }];
@@ -41,38 +48,39 @@
 }
      
 - (void)dealBLEData {
-    [[BLEService sharedInstance] bloodPressureStartBlock:^(){
-        [SVProgressHUD showInfoWithStatus:@"开始连接血压仪"];
-    }retuneValueBlock:^(){
-        [SVProgressHUD showInfoWithStatus:@"测量数据"];
-    }disConnectBlock:^(){
-        [SVProgressHUD showInfoWithStatus:@"失去连接"];
-    }failBlock:^(){
-        [SVProgressHUD showInfoWithStatus:@"测量失败"];
-    }endBlock:^(){
-        [SVProgressHUD showInfoWithStatus:@"测量结束"];
-    }];
+    TextViewVC *vc = [[TextViewVC alloc] init];
+    vc.type = BLEOrderTypeBegin;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 0;
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    static NSString *cellStr = @"cellIdentifier";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellStr forIndexPath:indexPath];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellStr];
+    }
     
     // Configure the cell...
-    
+    cell.textLabel.text = orderList[indexPath.row];
     return cell;
 }
-*/
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    TextViewVC *vc = [[TextViewVC alloc] init];
+    vc.type = indexPath.row;
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 /*
 // Override to support conditional editing of the table view.

@@ -16,7 +16,7 @@ typedef NS_ENUM(NSUInteger, BLEOrderType) {
     BLEOrderTypeGetTime,      //读取时间
     BLEOrderTypeGetParameter, //读取参数
     BLEOrderTypeGetCacheDate, //读取缓存数据
-    BLEOrderTypeClearCacheDate
+    BLEOrderTypeClearCacheDate //清除缓存数据
 };
 
 @interface BLEService : NSObject
@@ -30,6 +30,7 @@ typedef NS_ENUM(NSUInteger, BLEOrderType) {
 @property(nonatomic,assign)int valueHeart;
 @property(nonatomic,assign)int errorCode;
 @property(nonatomic,assign)int currValue;
+@property(nonatomic,assign)NSString *currData;
 
 + (instancetype)sharedInstance;
 
@@ -48,7 +49,7 @@ typedef NS_ENUM(NSUInteger, BLEOrderType) {
 //下发指令到设备
 - (void)writeOrderWithType:(BLEOrderType)orderType;
 
-- (void)bloodPressureStartBlock:(void (^)())startBlock retuneValueBlock:(void (^)())retuneValueBlock disConnectBlock:(void (^)())disConnectBlock failBlock:(void (^)())failBlock endBlock:(void (^)())endBlock;
+- (void)bloodPressureStartBlock:(void (^)(NSString *str))startBlock retuneValueBlock:(void (^)())retuneValueBlock disConnectBlock:(void (^)())disConnectBlock failBlock:(void (^)())failBlock endBlock:(void (^)())endBlock;
 
 //连接ble
 - (void)connectPeripheral:(CBPeripheral *)peripheral successBlock:(void (^)())successBlock failBlock:(void (^)())failBlock startOrderBlock:(void (^)())startOrderBlock;

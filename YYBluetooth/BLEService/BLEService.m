@@ -491,6 +491,11 @@ static BLEService *_instance = nil;
 
 - (void)dealReadData:(NSData *)readData {
     NSLog(@"读取的值:%@",readData);
+    if (readData) {
+        NSString *str = [BabyToy convertDataToHexStr:readData];
+        self.startBlock(str);
+    }
+    
     //1转字符
     Byte *bytes = (Byte *)[readData bytes];
     //    NSLog(@"读取的值:%s",bytes);
@@ -581,10 +586,10 @@ static BLEService *_instance = nil;
     if (dataLength>0) {
         int oderCode = [BabyToy ConvertDataToInt:oderData];
         //xiangfeng redo 解决收不到开始的数据
-        if (self.startBlock) {
-            self.startBlock();
-            self.startBlock = nil;
-        }
+//        if (self.startBlock) {
+//            self.startBlock();
+//            self.startBlock = nil;
+//        }
         switch (oderCode) {
             case 80: {//0x50-开始测量命令后，自身气压"归零"
                 NSLog(@"------开始测量---");
