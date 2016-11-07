@@ -19,6 +19,11 @@ typedef NS_ENUM(NSUInteger, BLEOrderType) {
     BLEOrderTypeClearCacheDate //清除缓存数据
 };
 
+typedef NS_ENUM(NSUInteger, BLEOrderTypeSet) {
+    BLEOrderTypeSetTime = 0,  //设置时间
+    BLEOrderTypeSetParameter, //设置参数
+};
+
 @interface BLEService : NSObject
 
 @property(nonatomic,strong)NSMutableArray *bleList;
@@ -48,6 +53,8 @@ typedef NS_ENUM(NSUInteger, BLEOrderType) {
 
 //下发指令到设备
 - (void)writeOrderWithType:(BLEOrderType)orderType;
+//设置时间和参数。0-设置时间:B0。1-设置参数:B2
+- (void)setBLEWithType:(BLEOrderTypeSet)orderType value:(NSString *)string;
 
 - (void)bloodPressureStartBlock:(void (^)(NSString *str))startBlock retuneValueBlock:(void (^)())retuneValueBlock disConnectBlock:(void (^)())disConnectBlock failBlock:(void (^)())failBlock endBlock:(void (^)())endBlock;
 

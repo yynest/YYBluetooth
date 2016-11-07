@@ -80,7 +80,7 @@ static BLEService *_instance = nil;
      b3[0] = b0[0];
      b3[1] = b0[1];
      b3[2] = b0[2];
-     b3[3] = (0XC1);
+     b3[3] = (0XB1);
      b3[4]  = b0[3]; b3[5]  = b0[3]; b3[6]  = b0[3]; b3[7]  = b0[3];  b3[8] = b0[3];
      b3[9]  = b0[3]; b3[10] = b0[3]; b3[11] = b0[3]; b3[12] = b0[3]; b3[13] = b0[3];
      b3[14] = b0[3]; b3[15] = b0[3]; b3[16] = b0[3]; b3[17] = b0[3]; b3[18] = b0[3];
@@ -115,7 +115,7 @@ static BLEService *_instance = nil;
      b6[0] = b0[0];
      b6[1] = b0[1];
      b6[2] = b0[2];
-     b6[3] = (0XB4);
+     b6[3] = (0XB5);
      b6[4]  = b0[3]; b6[5]  = b0[3]; b6[6]  = b0[3]; b6[7]  = b0[3];  b6[8] = b0[3];
      b6[9]  = b0[3]; b6[10] = b0[3]; b6[11] = b0[3]; b6[12] = b0[3]; b6[13] = b0[3];
      b6[14] = b0[3]; b6[15] = b0[3]; b6[16] = b0[3]; b6[17] = b0[3]; b6[18] = b0[3];
@@ -125,7 +125,7 @@ static BLEService *_instance = nil;
 }
 
 //0-设置时间:B0。1-设置参数:B2
-- (NSData *)getBLEOrderType:(NSInteger)type {
+- (NSData *)getBLEOrderType:(BLEOrderTypeSet)type {
     //公用的数据
     char b0[5];
     b0[0] = (0XAA);
@@ -415,7 +415,7 @@ static BLEService *_instance = nil;
                     writeCharacteristic = c;
                 }
                 if (notifiyCharacteristic && writeCharacteristic) {
-                    [SVProgressHUD showInfoWithStatus:@"开始测量血压"];
+                    [SVProgressHUD showInfoWithStatus:@"可以开始测量血压"];
                     weakSelf.startOrderBlock();
                 }
             }
@@ -486,6 +486,12 @@ static BLEService *_instance = nil;
 //下发指令到设备
 - (void)writeOrderWithType:(BLEOrderType)orderType {
     NSData *data = [orderValues objectAtIndex:orderType];
+    [currPeripheral writeValue:data forCharacteristic:writeCharacteristic type:CBCharacteristicWriteWithResponse];
+}
+
+//设置时间和参数
+- (void)setBLEWithType:(BLEOrderTypeSet)orderType value:(NSString *)string{
+    NSData *data = [self getBLEOrderType:orderType];
     [currPeripheral writeValue:data forCharacteristic:writeCharacteristic type:CBCharacteristicWriteWithResponse];
 }
 
@@ -666,13 +672,13 @@ static BLEService *_instance = nil;
     }
 }
 
-- (void)bloodPressureStartBlock:(void (^)())startBlock retuneValueBlock:(void (^)())retuneValueBlock disConnectBlock:(void (^)())disConnectBlock failBlock:(void (^)())failBlock endBlock:(void (^)())endBlock {
+- (void)bloodPressureStartBlock:(void (^)(NSString *str))startBlock retuneValueBlock:(void (^)())retuneValueBlock disConnectBlock:(void (^)())disConnectBlock failBlock:(void (^)())failBlock endBlock:(void (^)())endBlock {
     self.startBlock = startBlock;
     self.retuneValueBlock = retuneValueBlock;
     self.disConnectBlock = disConnectBlock;
     self.failBlock = failBlock;
     self.endBlock = endBlock;
-    [self writeOrderWithType:BLEOrderTypeBegin];
+//    [self writeOrderWithType:BLEOrderTypeBegin];
 }
 
 - (int)dealBloodData:(NSData *)data {

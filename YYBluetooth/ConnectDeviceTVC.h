@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
-@interface ConnectDeviceTVC : UITableViewController
+@interface ConnectDeviceTVC : UIViewController<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,strong)CBPeripheral *peripheral;
 

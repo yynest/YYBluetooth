@@ -22,13 +22,53 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.title = @"血压仪数据";
-//    NSTimer *timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
-//    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
-//    [timer fire];
-//    [self performSelector:@selector(addString) withObject:nil afterDelay:1];
     lineNO = 1;
     [self dealBLEData];
-    
+    [[BLEService sharedInstance] writeOrderWithType:_type];
+    switch (_type) {
+        case BLEOrderTypeStop: {
+            
+        }
+            break;
+        case BLEOrderTypeBegin: {
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"停止测量" style:UIBarButtonItemStylePlain target:self action:@selector(stop)];
+        }
+            break;
+        case BLEOrderTypeGetTime: {
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"设置时间" style:UIBarButtonItemStylePlain target:self action:@selector(setTime)];
+        }
+            break;
+        case BLEOrderTypeGetParameter: {
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"设置参数" style:UIBarButtonItemStylePlain target:self action:@selector(setParameter)];
+        }
+            break;
+        case BLEOrderTypeGetCacheDate: {
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"清除缓存" style:UIBarButtonItemStylePlain target:self action:@selector(clearCache)];
+        }
+            break;
+        case BLEOrderTypeClearCacheDate: {
+            
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)stop {
+    [[BLEService sharedInstance] writeOrderWithType:BLEOrderTypeStop];
+}
+
+- (void)setTime {
+    [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetTime value:@"time"];
+}
+
+- (void)setParameter {
+    [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetParameter value:@"time"];
+}
+
+- (void)clearCache {
+    [[BLEService sharedInstance] writeOrderWithType:BLEOrderTypeClearCacheDate];
 }
 
 - (void)dealBLEData {

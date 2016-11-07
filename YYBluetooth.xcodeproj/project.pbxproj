@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A68861D1DD05A8D00BA36B4 /* ConnectBLETVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A68861B1DD05A8D00BA36B4 /* ConnectBLETVC.m */; };
+		6A68861E1DD05A8D00BA36B4 /* ConnectBLETVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A68861C1DD05A8D00BA36B4 /* ConnectBLETVC.xib */; };
 		6AA33FD31DC885CD009283B9 /* ScanDeviceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA33FD21DC885CD009283B9 /* ScanDeviceTVC.m */; };
 		6AA33FD61DC9CE0D009283B9 /* UserDefaultsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA33FD51DC9CE0D009283B9 /* UserDefaultsHelper.m */; };
 		6AA33FDA1DC9D430009283B9 /* ConnectDeviceTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA33FD81DC9D430009283B9 /* ConnectDeviceTVC.m */; };
-		6AA33FDB1DC9D430009283B9 /* ConnectDeviceTVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AA33FD91DC9D430009283B9 /* ConnectDeviceTVC.xib */; };
 		6AC9761F1DC6F60B00D34497 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC9761E1DC6F60B00D34497 /* main.m */; };
 		6AC976221DC6F60B00D34497 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC976211DC6F60B00D34497 /* AppDelegate.m */; };
 		6AC976281DC6F60B00D34497 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AC976261DC6F60B00D34497 /* Main.storyboard */; };
@@ -60,13 +61,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6A68861A1DD05A8D00BA36B4 /* ConnectBLETVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectBLETVC.h; sourceTree = "<group>"; };
+		6A68861B1DD05A8D00BA36B4 /* ConnectBLETVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectBLETVC.m; sourceTree = "<group>"; };
+		6A68861C1DD05A8D00BA36B4 /* ConnectBLETVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectBLETVC.xib; sourceTree = "<group>"; };
 		6AA33FD11DC885CD009283B9 /* ScanDeviceTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanDeviceTVC.h; sourceTree = "<group>"; };
 		6AA33FD21DC885CD009283B9 /* ScanDeviceTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanDeviceTVC.m; sourceTree = "<group>"; };
 		6AA33FD41DC9CE0D009283B9 /* UserDefaultsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDefaultsHelper.h; sourceTree = "<group>"; };
 		6AA33FD51DC9CE0D009283B9 /* UserDefaultsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDefaultsHelper.m; sourceTree = "<group>"; };
 		6AA33FD71DC9D430009283B9 /* ConnectDeviceTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectDeviceTVC.h; sourceTree = "<group>"; };
 		6AA33FD81DC9D430009283B9 /* ConnectDeviceTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectDeviceTVC.m; sourceTree = "<group>"; };
-		6AA33FD91DC9D430009283B9 /* ConnectDeviceTVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectDeviceTVC.xib; sourceTree = "<group>"; };
 		6AC9761A1DC6F60B00D34497 /* YYBluetooth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YYBluetooth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AC9761E1DC6F60B00D34497 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6AC976201DC6F60B00D34497 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -186,7 +189,6 @@
 				6AA33FD21DC885CD009283B9 /* ScanDeviceTVC.m */,
 				6AA33FD71DC9D430009283B9 /* ConnectDeviceTVC.h */,
 				6AA33FD81DC9D430009283B9 /* ConnectDeviceTVC.m */,
-				6AA33FD91DC9D430009283B9 /* ConnectDeviceTVC.xib */,
 				6AC976261DC6F60B00D34497 /* Main.storyboard */,
 				9F3A94A21DCB94AE008639C5 /* TextViewVC.h */,
 				9F3A94A31DCB94AE008639C5 /* TextViewVC.m */,
@@ -195,6 +197,9 @@
 				6AC9762B1DC6F60B00D34497 /* LaunchScreen.storyboard */,
 				6AC9762E1DC6F60B00D34497 /* Info.plist */,
 				6AC9761D1DC6F60B00D34497 /* Supporting Files */,
+				6A68861A1DD05A8D00BA36B4 /* ConnectBLETVC.h */,
+				6A68861B1DD05A8D00BA36B4 /* ConnectBLETVC.m */,
+				6A68861C1DD05A8D00BA36B4 /* ConnectBLETVC.xib */,
 			);
 			path = YYBluetooth;
 			sourceTree = "<group>";
@@ -423,10 +428,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AA33FDB1DC9D430009283B9 /* ConnectDeviceTVC.xib in Resources */,
 				6AC9768E1DC70FF400D34497 /* SVProgressHUD.bundle in Resources */,
 				6AC9762D1DC6F60B00D34497 /* LaunchScreen.storyboard in Resources */,
 				9F3A94A61DCB94AE008639C5 /* TextViewVC.xib in Resources */,
+				6A68861E1DD05A8D00BA36B4 /* ConnectBLETVC.xib in Resources */,
 				6AC9762A1DC6F60B00D34497 /* Assets.xcassets in Resources */,
 				6AC976811DC70F1700D34497 /* ViewController.xib in Resources */,
 				6AC976281DC6F60B00D34497 /* Main.storyboard in Resources */,
@@ -466,6 +471,7 @@
 				6AC9768D1DC70FF400D34497 /* SVIndefiniteAnimatedView.m in Sources */,
 				6AC976821DC70F1700D34497 /* WriteValueVC.m in Sources */,
 				6AC976641DC70DE900D34497 /* BabyCentralManager.m in Sources */,
+				6A68861D1DD05A8D00BA36B4 /* ConnectBLETVC.m in Sources */,
 				9F3A94A51DCB94AE008639C5 /* TextViewVC.m in Sources */,
 				6AC976631DC70DE900D34497 /* BabyCallback.m in Sources */,
 				6AC976901DC70FF400D34497 /* SVRadialGradientLayer.m in Sources */,
