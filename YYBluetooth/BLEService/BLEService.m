@@ -17,12 +17,15 @@
 @interface BLEService (){
     NSMutableArray *orderValues;
     NSArray *orderNames;
+    NSArray *orderSetNames;
+    
     
     CBPeripheral *currPeripheral;
     CBCharacteristic *notifiyCharacteristic;
     CBCharacteristic *writeCharacteristic;
     
     //
+    NSString *strHead;
 }
 //搜索
 @property (nonatomic, copy) void (^scanFailBlock)();
@@ -46,139 +49,138 @@
 
 static BLEService *_instance = nil;
 
- - (void)initFidedOrderValues {
-     orderNames = @[@"停止测量",@"开始测量",@"读取时间",@"读取参数",@"读取记录",@"清除记录"];
-     //公用的数据
-     char b0[5];
-     b0[0] = (0XAA);
-     b0[1] = (0X55);
-     b0[2] = (0XFF);
-     b0[3] = (0X00);
-     b0[4] = (0XCC);
-     //停止测量:C0
-     char b1[20] ;
-     b1[0] = b0[0];
-     b1[1] = b0[1];
-     b1[2] = b0[2];
-     b1[3] = (0XC0);
-     b1[4]  = b0[3]; b1[5]  = b0[3]; b1[6]  = b0[3]; b1[7]  = b0[3]; b1[8] = b0[3];
-     b1[9]  = b0[3]; b1[10] = b0[3]; b1[11] = b0[3]; b1[12] = b0[3]; b1[13] = b0[3];
-     b1[14] = b0[3]; b1[15] = b0[3]; b1[16] = b0[3]; b1[17] = b0[3]; b1[18] = b0[3];
-     b1[19] = b0[4];
-     NSData *data1 = [[NSData alloc] initWithBytes:&b1 length:sizeof(b1)];
-     //开始测量:C1
-     char b2[20] ;
-     b2[0] = b0[0];
-     b2[1] = b0[1];
-     b2[2] = b0[2];
-     b2[3] = (0XC1);
-     b2[4]  = b0[3]; b2[5]  = b0[3]; b2[6]  = b0[3]; b2[7]  = b0[3];  b2[8] = b0[3];
-     b2[9]  = b0[3]; b2[10] = b0[3]; b2[11] = b0[3]; b2[12] = b0[3]; b2[13] = b0[3];
-     b2[14] = b0[3]; b2[15] = b0[3]; b2[16] = b0[3]; b2[17] = b0[3]; b2[18] = b0[3];
-     b2[19] = b0[4];
-     NSData *data2 = [[NSData alloc] initWithBytes:&b2 length:sizeof(b2)];
-     
-     //读取时间:B1
-     char b3[20] ;
-     b3[0] = b0[0];
-     b3[1] = b0[1];
-     b3[2] = b0[2];
-     b3[3] = (0XB1);
-     b3[4]  = b0[3]; b3[5]  = b0[3]; b3[6]  = b0[3]; b3[7]  = b0[3];  b3[8] = b0[3];
-     b3[9]  = b0[3]; b3[10] = b0[3]; b3[11] = b0[3]; b3[12] = b0[3]; b3[13] = b0[3];
-     b3[14] = b0[3]; b3[15] = b0[3]; b3[16] = b0[3]; b3[17] = b0[3]; b3[18] = b0[3];
-     b3[19] = b0[4];
-     NSData *data3 = [[NSData alloc] initWithBytes:&b3 length:sizeof(b3)];
+//- (void)initFidedOrderValues {
+//     orderNames = @[@"停止测量",@"开始测量",@"读取时间",@"读取参数",@"读取记录",@"清除记录"];
+//     //公用的数据
+//     char b0[5];
+//     b0[0] = (0XAA);
+//     b0[1] = (0X55);
+//     b0[2] = (0XFF);
+//     b0[3] = (0X00);
+//     b0[4] = (0XCC);
+//     //停止测量:C0
+//     char b1[20] ;
+//     b1[0] = b0[0];
+//     b1[1] = b0[1];
+//     b1[2] = b0[2];
+//     b1[3] = (0XC0);
+//     b1[4]  = b0[3]; b1[5]  = b0[3]; b1[6]  = b0[3]; b1[7]  = b0[3]; b1[8] = b0[3];
+//     b1[9]  = b0[3]; b1[10] = b0[3]; b1[11] = b0[3]; b1[12] = b0[3]; b1[13] = b0[3];
+//     b1[14] = b0[3]; b1[15] = b0[3]; b1[16] = b0[3]; b1[17] = b0[3]; b1[18] = b0[3];
+//     b1[19] = b0[4];
+//     NSData *data1 = [[NSData alloc] initWithBytes:&b1 length:sizeof(b1)];
+//     //开始测量:C1
+//     char b2[20] ;
+//     b2[0] = b0[0];
+//     b2[1] = b0[1];
+//     b2[2] = b0[2];
+//     b2[3] = (0XC1);
+//     b2[4]  = b0[3]; b2[5]  = b0[3]; b2[6]  = b0[3]; b2[7]  = b0[3];  b2[8] = b0[3];
+//     b2[9]  = b0[3]; b2[10] = b0[3]; b2[11] = b0[3]; b2[12] = b0[3]; b2[13] = b0[3];
+//     b2[14] = b0[3]; b2[15] = b0[3]; b2[16] = b0[3]; b2[17] = b0[3]; b2[18] = b0[3];
+//     b2[19] = b0[4];
+//     NSData *data2 = [[NSData alloc] initWithBytes:&b2 length:sizeof(b2)];
+//     
+//     //读取时间:B1
+//     char b3[20] ;
+//     b3[0] = b0[0];
+//     b3[1] = b0[1];
+//     b3[2] = b0[2];
+//     b3[3] = (0XB1);
+//     b3[4]  = b0[3]; b3[5]  = b0[3]; b3[6]  = b0[3]; b3[7]  = b0[3];  b3[8] = b0[3];
+//     b3[9]  = b0[3]; b3[10] = b0[3]; b3[11] = b0[3]; b3[12] = b0[3]; b3[13] = b0[3];
+//     b3[14] = b0[3]; b3[15] = b0[3]; b3[16] = b0[3]; b3[17] = b0[3]; b3[18] = b0[3];
+//     b3[19] = b0[4];
+//     NSData *data3 = [[NSData alloc] initWithBytes:&b3 length:sizeof(b3)];
+//
+//     //读取参数:B3
+//     char b4[20] ;
+//     b4[0] = b0[0];
+//     b4[1] = b0[1];
+//     b4[2] = b0[2];
+//     b4[3] = (0XB3);
+//     b4[4]  = b0[3]; b4[5]  = b0[3]; b4[6]  = b0[3]; b4[7]  = b0[3];  b4[8] = b0[3];
+//     b4[9]  = b0[3]; b4[10] = b0[3]; b4[11] = b0[3]; b4[12] = b0[3]; b4[13] = b0[3];
+//     b4[14] = b0[3]; b4[15] = b0[3]; b4[16] = b0[3]; b4[17] = b0[3]; b4[18] = b0[3];
+//     b4[19] = b0[4];
+//     NSData *data4 = [[NSData alloc] initWithBytes:&b4 length:sizeof(b4)];
+//     
+//     //读取记录:B4
+//     char b5[20] ;
+//     b5[0] = b0[0];
+//     b5[1] = b0[1];
+//     b5[2] = b0[2];
+//     b5[3] = (0XB4);
+//     b5[4]  = b0[3]; b5[5]  = b0[3]; b5[6]  = b0[3]; b5[7]  = b0[3];  b5[8] = b0[3];
+//     b5[9]  = b0[3]; b5[10] = b0[3]; b5[11] = b0[3]; b5[12] = b0[3]; b5[13] = b0[3];
+//     b5[14] = b0[3]; b5[15] = b0[3]; b5[16] = b0[3]; b5[17] = b0[3]; b5[18] = b0[3];
+//     b5[19] = b0[4];
+//     NSData *data5 = [[NSData alloc] initWithBytes:&b5 length:sizeof(b5)];
+//     //清除记录:B5
+//     char b6[20] ;
+//     b6[0] = b0[0];
+//     b6[1] = b0[1];
+//     b6[2] = b0[2];
+//     b6[3] = (0XB5);
+//     b6[4]  = (0X60);
+//     b6[5]  = b0[3]; b6[6]  = b0[3]; b6[7]  = b0[3];  b6[8] = b0[3];
+//     b6[9]  = b0[3]; b6[10] = b0[3]; b6[11] = b0[3]; b6[12] = b0[3]; b6[13] = b0[3];
+//     b6[14] = b0[3]; b6[15] = b0[3]; b6[16] = b0[3]; b6[17] = b0[3]; b6[18] = b0[3];
+//     b6[19] = b0[4];
+//     NSData *data6 = [[NSData alloc] initWithBytes:&b6 length:sizeof(b6)];
+//     orderValues = [[NSMutableArray alloc] initWithObjects:data1, data2, data3, data4, data5, data6, nil];
+//}
 
-     //读取参数:B3
-     char b4[20] ;
-     b4[0] = b0[0];
-     b4[1] = b0[1];
-     b4[2] = b0[2];
-     b4[3] = (0XB3);
-     b4[4]  = b0[3]; b4[5]  = b0[3]; b4[6]  = b0[3]; b4[7]  = b0[3];  b4[8] = b0[3];
-     b4[9]  = b0[3]; b4[10] = b0[3]; b4[11] = b0[3]; b4[12] = b0[3]; b4[13] = b0[3];
-     b4[14] = b0[3]; b4[15] = b0[3]; b4[16] = b0[3]; b4[17] = b0[3]; b4[18] = b0[3];
-     b4[19] = b0[4];
-     NSData *data4 = [[NSData alloc] initWithBytes:&b4 length:sizeof(b4)];
-     
-     //读取记录:B4
-     char b5[20] ;
-     b5[0] = b0[0];
-     b5[1] = b0[1];
-     b5[2] = b0[2];
-     b5[3] = (0XB4);
-     b5[4]  = b0[3]; b5[5]  = b0[3]; b5[6]  = b0[3]; b5[7]  = b0[3];  b5[8] = b0[3];
-     b5[9]  = b0[3]; b5[10] = b0[3]; b5[11] = b0[3]; b5[12] = b0[3]; b5[13] = b0[3];
-     b5[14] = b0[3]; b5[15] = b0[3]; b5[16] = b0[3]; b5[17] = b0[3]; b5[18] = b0[3];
-     b5[19] = b0[4];
-     NSData *data5 = [[NSData alloc] initWithBytes:&b5 length:sizeof(b5)];
-     //清除记录:B5
-     char b6[20] ;
-     b6[0] = b0[0];
-     b6[1] = b0[1];
-     b6[2] = b0[2];
-     b6[3] = (0XB5);
-     b6[4]  = b0[3]; b6[5]  = b0[3]; b6[6]  = b0[3]; b6[7]  = b0[3];  b6[8] = b0[3];
-     b6[9]  = b0[3]; b6[10] = b0[3]; b6[11] = b0[3]; b6[12] = b0[3]; b6[13] = b0[3];
-     b6[14] = b0[3]; b6[15] = b0[3]; b6[16] = b0[3]; b6[17] = b0[3]; b6[18] = b0[3];
-     b6[19] = b0[4];
-     NSData *data6 = [[NSData alloc] initWithBytes:&b6 length:sizeof(b6)];
-     orderValues = [[NSMutableArray alloc] initWithObjects:data1, data2, data3, data4, data5, data6, nil];
+- (void)initFidedOrderValues {
+    orderNames = @[@"停止测量",@"开始测量",@"读取时间",@"读取参数",@"读取记录",@"清除记录"];
+    orderSetNames = @[@"设置时间",@"设置参数",@"清除记录"];
+    //公用的数据
+    strHead = @"AA55FF";
+    NSString *strTail = @"000000000000000000000000000000CC";
+    
+    //停止测量:C0
+    NSString *strOrder = [NSString stringWithFormat:@"%@C0%@",strHead,strTail];
+    NSData *data1 = [BabyToy convertHexStrToData:strOrder];
+    
+    //开始测量:C1
+    strOrder = [NSString stringWithFormat:@"%@C1%@",strHead,strTail];
+    NSData *data2 = [BabyToy convertHexStrToData:strOrder];
+    
+    //读取时间:B1
+    strOrder = [NSString stringWithFormat:@"%@B1%@",strHead,strTail];
+    NSData *data3 = [BabyToy convertHexStrToData:strOrder];
+    
+    //读取参数:B3
+    strOrder = [NSString stringWithFormat:@"%@B3%@",strHead,strTail];
+    NSData *data4 = [BabyToy convertHexStrToData:strOrder];
+    
+    //读取记录:B4
+    strOrder = [NSString stringWithFormat:@"%@B4%@",strHead,strTail];
+    NSData *data5 = [BabyToy convertHexStrToData:strOrder];
+    
+    orderValues = [[NSMutableArray alloc] initWithObjects:data1, data2, data3, data4, data5, nil];
 }
 
 //0-设置时间:B0。1-设置参数:B2
-- (NSData *)getBLEOrderType:(BLEOrderTypeSet)type {
-    //公用的数据
-    char b0[5];
-    b0[0] = (0XAA);
-    b0[1] = (0X55);
-    b0[2] = (0XFF);
-    b0[3] = (0X00);
-    b0[4] = (0XCC);
-    
-    char b1[20];
-    b1[0] = b0[0];
-    b1[1] = b0[1];
-    b1[2] = b0[2];
-    b1[19] = b0[4];
-    switch (type) {//设置时间
+- (NSData *)getBLEOrderType:(BLEOrderTypeSet)type value:(NSString *)string{
+    NSString *strOrder;
+    switch (type) {//设置时间 B0
         case 0: {
-            b1[3] = (0XB0);
-            b1[4] = (0X20);
-            b1[5] = (0X16);
-            b1[6] = (0X10);
-            b1[7] = (0X27);
-            b1[8] = (0X11);
-            b1[9] = (0X27);
-            b1[10] = (0X24);
-            b1[11] = b0[3];b1[12] = b0[3];b1[13] = b0[3];b1[14] = b0[3];
-            b1[15] = b0[3];b1[16] = b0[3];b1[17] = b0[3];b1[18] = b0[3];
+            strOrder = [NSString stringWithFormat:@"%@B0%@0000000000000000CC",strHead,string];
         }
             break;
-        case 1: {//设置参数
-            b1[3] = (0XB2);//1
-            b1[4] = (0X23);
-            b1[5] = (0X59);
-            b1[6] = (0X08);
-            b1[7] = (0X00);
-            b1[8] = (0X05);
-            b1[9] = (0X08);//2
-            b1[10] = (0X00);
-            b1[11] = (0X23);
-            b1[12] = (0X59);
-            b1[13] = (0X05);
-            b1[14] = (0XFF);//3
-            b1[15] = (0XFF);
-            b1[16] = (0XFF);
-            b1[17] = (0XFF);
-            b1[18] = (0XFF);
+        case 1: {//设置参数 B2
+            strOrder = [NSString stringWithFormat:@"%@B2%@FFFFFFFFFFCC",strHead,string];
+        }
+            break;
+        case 2: {//清除记录:B5
+            strOrder = [NSString stringWithFormat:@"%@B5%@0000000000000000000000000000CC",strHead,string];
         }
             break;
         default:
             break;
     }
-    NSData *data = [[NSData alloc] initWithBytes:&b1 length:sizeof(b1)];
+    NSData *data = [BabyToy convertHexStrToData:strOrder];
     return data;
 }
 
@@ -483,12 +485,9 @@ static BLEService *_instance = nil;
 
 //设置时间和参数
 - (void)setBLEWithType:(BLEOrderTypeSet)orderType value:(NSString *)string{
-    NSData *data = [self getBLEOrderType:orderType];
+    NSData *data = [self getBLEOrderType:orderType value:string];
     if (data) {
-        NSString *str = [NSString stringWithFormat:@"下发指令-设置时间:%@", [BabyToy convertDataToHexStr:data]];
-        if (orderType) {
-            str = [NSString stringWithFormat:@"下发指令-设置参数:%@", [BabyToy convertDataToHexStr:data]];
-        }
+        NSString *str = [NSString stringWithFormat:@"下发指令-%@:%@", orderSetNames[orderType],[BabyToy convertDataToHexStr:data]];
         self.startBlock(str);
     }
     [currPeripheral writeValue:data forCharacteristic:writeCharacteristic type:CBCharacteristicWriteWithResponse];
@@ -619,15 +618,15 @@ static BLEService *_instance = nil;
                 //收缩压
                 NSData *valueH = [readData subdataWithRange:NSMakeRange(index+1, 2)];
                 int high = [self dealBloodData:valueH];
-                DLog(@"高压:%@---%d",valueH,_valueHigh);
+                DLog(@"高压:%@---%d",valueH,high);
                 //舒张压
                 NSData *valueL = [readData subdataWithRange:NSMakeRange(index+2+1, 2)];
                 int low = [self dealBloodData:valueL];
-                DLog(@"低压:%@---%d",valueL,_valueLow);
+                DLog(@"低压:%@---%d",valueL,low);
                 //心率
                 NSData *valueHeart = [readData subdataWithRange:NSMakeRange(index+2+2+1, 1)];
                 int heart = [BabyToy ConvertDataToInt:valueHeart];
-                DLog(@"心率:%@---%d",valueHeart,_valueHeart);
+                DLog(@"心率:%@---%d",valueHeart,heart);
                 self.endBlock(high, low, heart);
             }
                 break;
@@ -635,9 +634,9 @@ static BLEService *_instance = nil;
                 DLog(@"------测量出错------");
                 NSData *bleData = [readData subdataWithRange:NSMakeRange(index+1, 1)];
                 DLog(@"数据位:%@",bleData);
-                _errorCode = [BabyToy ConvertDataToInt:bleData];
+                int errorCode = [BabyToy ConvertDataToInt:bleData];
                 if (self.failBlock) {
-                    self.failBlock();
+                    self.failBlock(errorCode);
                 }
             }
                 break;
@@ -711,7 +710,7 @@ static BLEService *_instance = nil;
     }
 }
 
-- (void)bloodPressureStartBlock:(void (^)(NSString *str))startBlock retuneValueBlock:(void (^)(int value))retuneValueBlock disConnectBlock:(void (^)())disConnectBlock failBlock:(void (^)())failBlock endBlock:(void (^)(int high,int low,int heart))endBlock {
+- (void)bloodPressureStartBlock:(void (^)(NSString *str))startBlock retuneValueBlock:(void (^)(int value))retuneValueBlock disConnectBlock:(void (^)())disConnectBlock failBlock:(void (^)(int errorCode))failBlock endBlock:(void (^)(int high,int low,int heart))endBlock {
     self.startBlock = startBlock;
     self.retuneValueBlock = retuneValueBlock;
     self.disConnectBlock = disConnectBlock;

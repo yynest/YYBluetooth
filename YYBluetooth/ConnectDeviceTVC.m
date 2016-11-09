@@ -29,7 +29,7 @@
     [self.view addSubview:baseTableView];
     
     
-    orderList = @[@"停止测量",@"开始测量",@"读取时间",@"读取参数",@"读取缓存数据",@"清除缓存数据"];
+    orderList = @[@"停止测量",@"开始测量",@"读取时间",@"读取参数",@"读取缓存数据"];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     

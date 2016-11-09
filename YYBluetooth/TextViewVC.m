@@ -13,6 +13,7 @@
     
     __weak IBOutlet UITextView *textView;
     int lineNO;
+    NSString *dataCount;
 }
 
 @end
@@ -44,11 +45,7 @@
         }
             break;
         case BLEOrderTypeGetCacheDate: {
-            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"清除缓存" style:UIBarButtonItemStylePlain target:self action:@selector(clearCache)];
-        }
-            break;
-        case BLEOrderTypeClearCacheDate: {
-            
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"清除记录" style:UIBarButtonItemStylePlain target:self action:@selector(clearCache)];
         }
             break;
         default:
@@ -61,15 +58,24 @@
 }
 
 - (void)setTime {
-    [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetTime value:@"time"];
+    NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+    [outputFormatter setLocale:[NSLocale currentLocale]];
+    [outputFormatter setDateFormat:@"yyyyMMddHHmmss"];
+    NSString *str= [outputFormatter stringFromDate:[NSDate date]];
+    [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetTime value:str];
 }
 
 - (void)setParameter {
-    [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetParameter value:@"time"];
+    [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetParameter value:@"08002200302200080060"];
 }
 
 - (void)clearCache {
-    [[BLEService sharedInstance] writeOrderWithType:BLEOrderTypeClearCacheDate];
+    if (dataCount) {
+        [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetCacheDateClear value:dataCount];
+    }
+    else {
+        [SVProgressHUD showInfoWithStatus:@"没有缓存数据"];
+    }
 }
 
 - (void)dealBLEData {
@@ -80,7 +86,7 @@
         [SVProgressHUD showInfoWithStatus:@"测量数据"];
     }disConnectBlock:^(){
         [SVProgressHUD showInfoWithStatus:@"失去连接"];
-    }failBlock:^(){
+    }failBlock:^(int errorCode){
         [SVProgressHUD showInfoWithStatus:@"测量失败"];
     }endBlock:^(int high,int low,int heart){
         [SVProgressHUD showInfoWithStatus:@"测量结束"];
@@ -92,6 +98,14 @@
         NSString *string = textView.text;
         textView.text = [NSString stringWithFormat:@"%@\n%d.%@",string,lineNO,str];
         lineNO++;
+        
+        //缓存
+        if (!dataCount && _type == BLEOrderTypeGetCacheDate && (str.length == 36)) {
+            dataCount = [str substringWithRange:NSMakeRange(10, 2)];
+            if ([dataCount isEqualToString:@"00"]) {
+                dataCount = nil;
+            }
+        }
     }
 }
 
