@@ -16,6 +16,7 @@
 
 @interface BLEService (){
     NSMutableArray *orderValues;
+    NSArray *orderNames;
     
     CBPeripheral *currPeripheral;
     CBCharacteristic *notifiyCharacteristic;
@@ -29,11 +30,12 @@
 
 //连接
 @property (nonatomic, copy) void (^connectBlock)();
-@property (nonatomic, copy) void (^disConnectBlock)();
+@property (nonatomic, copy) void (^connectFailBlock)();
 @property (nonatomic, copy) void (^startOrderBlock)();
 //测量
 @property (nonatomic, copy) void (^startBlock)();
 @property (nonatomic, copy) void (^retuneValueBlock)();
+@property (nonatomic, copy) void (^disConnectBlock)();
 @property (nonatomic, copy) void (^failBlock)();
 @property (nonatomic, copy) void (^endBlock)();
 
@@ -45,6 +47,7 @@
 static BLEService *_instance = nil;
 
  - (void)initFidedOrderValues {
+     orderNames = @[@"停止测量",@"开始测量",@"读取时间",@"读取参数",@"读取记录",@"清除记录"];
      //公用的数据
      char b0[5];
      b0[0] = (0XAA);
@@ -159,12 +162,12 @@ static BLEService *_instance = nil;
             b1[5] = (0X59);
             b1[6] = (0X08);
             b1[7] = (0X00);
-            b1[8] = (0XFF);
+            b1[8] = (0X05);
             b1[9] = (0X08);//2
             b1[10] = (0X00);
             b1[11] = (0X23);
             b1[12] = (0X59);
-            b1[13] = (0XFF);
+            b1[13] = (0X05);
             b1[14] = (0XFF);//3
             b1[15] = (0XFF);
             b1[16] = (0XFF);
@@ -190,7 +193,6 @@ static BLEService *_instance = nil;
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.bleList = [[NSMutableArray alloc] init];
         //初始化BabyBluetooth 蓝牙库
         _babyBluetooth = [BabyBluetooth shareBabyBluetooth];
 //        设置蓝牙委托
@@ -200,7 +202,7 @@ static BLEService *_instance = nil;
     return self;
 }
 
-- (void)startScanBLETime:(NSInteger)time successBlock:(void (^)())successBlock failBlock:(void (^)())failBlock {
+- (void)startScanBLETime:(NSInteger)time successBlock:(void (^)(CBPeripheral *peripheral))successBlock failBlock:(void (^)())failBlock {
     self.scanSuccessBlock = successBlock;
     self.scanFailBlock = failBlock;
     [self startScanConnectBLE];
@@ -244,7 +246,7 @@ static BLEService *_instance = nil;
 //连接ble
 - (void)connectPeripheral:(CBPeripheral *)peripheral successBlock:(void (^)())successBlock failBlock:(void (^)())failBlock startOrderBlock:(void (^)())startOrderBlock {
     self.connectBlock = successBlock;
-    self.disConnectBlock = failBlock;
+    self.connectFailBlock = failBlock;
     self.startOrderBlock = startOrderBlock;
     currPeripheral = peripheral;
     [self connectPeripheral];
@@ -263,10 +265,10 @@ static BLEService *_instance = nil;
     __weak typeof(self) weakSelf = self;
     [_babyBluetooth setBlockOnCentralManagerDidUpdateState:^(CBCentralManager *central) {
         if (central.state == CBCentralManagerStatePoweredOn) {
-            NSLog(@"设备打开成功，开始扫描设备");
+            DLog(@"设备打开成功，开始扫描设备");
         }
         else if (central.state == CBCentralManagerStatePoweredOff) {
-            NSLog(@"设备关闭");
+            DLog(@"设备关闭");
         }
         else {
             
@@ -276,56 +278,42 @@ static BLEService *_instance = nil;
     //设置扫描到设备的委托
     [_babyBluetooth setBlockOnDiscoverToPeripherals:^(CBCentralManager *central, CBPeripheral *peripheral, NSDictionary *advertisementData, NSNumber *RSSI) {
         NSString *uuidStr = peripheral.identifier.UUIDString;
-        NSLog(@"搜索到了设备:%@:%@，信号强度：%@",peripheral.name,uuidStr,RSSI);
-        if (![weakSelf.bleList containsObject:peripheral]) {
-            [weakSelf.bleList addObject:peripheral];
-            weakSelf.scanSuccessBlock();
-        }
-        
-//        NSString *string = @"";// [UserDefaultsHelper getBindBloodPressureMeterID];
-//        if ([string isEqualToString:@"rebind"]) {
-////            [UserDefaultsHelper setBindBloodPressureMeterID:uuidStr];
-//            string = uuidStr;
-//        }
-//        if ([string isEqualToString:uuidStr]) {
-//            [weakSelf pauseScanBLE];
-//            currPeripheral = peripheral;
-//            [weakSelf connectPeripheral];
-//        }
+        DLog(@"搜索到了设备:%@:%@，信号强度：%@",peripheral.name,uuidStr,RSSI);
+        weakSelf.scanSuccessBlock(peripheral);
     }];
     
     //设置发现设备的Services的委托
     [_babyBluetooth setBlockOnDiscoverServices:^(CBPeripheral *peripheral, NSError *error) {
         for (CBService *service in peripheral.services) {
-            NSLog(@"搜索到服务:%@",service.UUID.UUIDString);
+            DLog(@"搜索到服务:%@",service.UUID.UUIDString);
         }
     }];
     //设置发现设service的Characteristics的委托
     [_babyBluetooth setBlockOnDiscoverCharacteristics:^(CBPeripheral *peripheral, CBService *service, NSError *error) {
-        NSLog(@"===service name:%@",service.UUID);
+        DLog(@"===service name:%@",service.UUID);
         for (CBCharacteristic *c in service.characteristics) {
-            NSLog(@"charateristic name is :%@",c.UUID);
+            DLog(@"charateristic name is :%@",c.UUID);
         }
     }];
     //设置读取characteristics的委托
     [_babyBluetooth setBlockOnReadValueForCharacteristic:^(CBPeripheral *peripheral, CBCharacteristic *characteristics, NSError *error) {
-        NSLog(@"characteristic name:%@ value is:%@",characteristics.UUID,characteristics.value);
+        DLog(@"characteristic name:%@ value is:%@",characteristics.UUID,characteristics.value);
     }];
     //设置发现characteristics的descriptors的委托
     [_babyBluetooth setBlockOnDiscoverDescriptorsForCharacteristic:^(CBPeripheral *peripheral, CBCharacteristic *characteristic, NSError *error) {
-        NSLog(@"===characteristic name:%@",characteristic.service.UUID);
+        DLog(@"===characteristic name:%@",characteristic.service.UUID);
         for (CBDescriptor *d in characteristic.descriptors) {
-            NSLog(@"CBDescriptor name is :%@",d.UUID);
+            DLog(@"CBDescriptor name is :%@",d.UUID);
         }
     }];
     //设置读取Descriptor的委托
     [_babyBluetooth setBlockOnReadValueForDescriptors:^(CBPeripheral *peripheral, CBDescriptor *descriptor, NSError *error) {
-        NSLog(@"Descriptor name:%@ value is:%@",descriptor.characteristic.UUID, descriptor.value);
+        DLog(@"Descriptor name:%@ value is:%@",descriptor.characteristic.UUID, descriptor.value);
     }];
     
     //设置查找设备的过滤器
     [_babyBluetooth setFilterOnDiscoverPeripherals:^BOOL(NSString *peripheralName) {
-        NSLog(@"name:%@",peripheralName);
+        DLog(@"name:%@",peripheralName);
         //设置查找规则是名称大于1 ， the search rule is peripheral.name length > 2
         if ([peripheralName isEqualToString:@"QianShan01"]) {// || [peripheralName isEqualToString:@"BleSeriaPort"] || [peripheralName isEqualToString:@"TianjuSmart     "]
             return YES;
@@ -337,11 +325,11 @@ static BLEService *_instance = nil;
     
     
     [_babyBluetooth setBlockOnCancelAllPeripheralsConnectionBlock:^(CBCentralManager *centralManager) {
-        NSLog(@"setBlockOnCancelAllPeripheralsConnectionBlock");
+        DLog(@"setBlockOnCancelAllPeripheralsConnectionBlock");
     }];
     
     [_babyBluetooth setBlockOnCancelScanBlock:^(CBCentralManager *centralManager) {
-        NSLog(@"setBlockOnCancelScanBlock");
+        DLog(@"setBlockOnCancelScanBlock");
     }];
     
     
@@ -370,22 +358,22 @@ static BLEService *_instance = nil;
     //设置设备连接成功的委托,同一个baby对象，使用不同的channel切换委托回调
     [_babyBluetooth setBlockOnConnectedAtChannel:channelOnPeropheralView block:^(CBCentralManager *central, CBPeripheral *peripheral) {
 //        [weakSelf pauseScanBLE];
-        NSLog(@"设备：%@--连接成功",peripheral.name);
+        DLog(@"设备：%@--连接成功",peripheral.name);
         if (weakSelf.connectBlock) {
             weakSelf.connectBlock();
         }
     }];  
     //设置设备连接失败的委托
     [_babyBluetooth setBlockOnFailToConnectAtChannel:channelOnPeropheralView block:^(CBCentralManager *central, CBPeripheral *peripheral, NSError *error) {
-        NSLog(@"设备：%@--连接失败",peripheral.name);
-        if (weakSelf.disConnectBlock) {
-            weakSelf.disConnectBlock();
+        DLog(@"设备：%@--连接失败",peripheral.name);
+        if (weakSelf.connectFailBlock) {
+            weakSelf.connectFailBlock();
         }
     }];
     
     //设置设备断开连接的委托
     [_babyBluetooth setBlockOnDisconnectAtChannel:channelOnPeropheralView block:^(CBCentralManager *central, CBPeripheral *peripheral, NSError *error) {
-        NSLog(@"设备：%@--断开连接",peripheral.name);
+        DLog(@"设备：%@--断开连接",peripheral.name);
         if (weakSelf.disConnectBlock) {
             weakSelf.disConnectBlock();
         }
@@ -401,12 +389,12 @@ static BLEService *_instance = nil;
     [_babyBluetooth setBlockOnDiscoverCharacteristicsAtChannel:channelOnPeropheralView block:^(CBPeripheral *peripheral, CBService *service, NSError *error) {
         
         NSString *strUUID = service.UUID.UUIDString;
-        NSLog(@"===service name:%@:%@",service.UUID,strUUID);
+        DLog(@"===service name:%@:%@",service.UUID,strUUID);
         if ([strUUID isEqualToString:@"FFF0"]) {
             for (int row=0;row<service.characteristics.count;row++) {
                 CBCharacteristic *c = service.characteristics[row];
                 NSString *strCUUID = c.UUID.UUIDString;
-                NSLog(@"===Characteristic name:%@:%@",c.UUID,strCUUID);
+                DLog(@"===Characteristic name:%@:%@",c.UUID,strCUUID);
                 if ([strCUUID isEqualToString:@"FFF2"]) {
                     notifiyCharacteristic = c;
                     [weakSelf setNotifiy];
@@ -423,29 +411,29 @@ static BLEService *_instance = nil;
     }];
 //    //设置读取characteristics的委托
 //    [_babyBluetooth setBlockOnReadValueForCharacteristicAtChannel:channelOnPeropheralView block:^(CBPeripheral *peripheral, CBCharacteristic *characteristics, NSError *error) {
-//        NSLog(@"characteristic name:%@ value is:%@",characteristics.UUID,characteristics.value);
+//        DLog(@"characteristic name:%@ value is:%@",characteristics.UUID,characteristics.value);
 //    }];
 //    //设置发现characteristics的descriptors的委托
 //    [_babyBluetooth setBlockOnDiscoverDescriptorsForCharacteristicAtChannel:channelOnPeropheralView block:^(CBPeripheral *peripheral, CBCharacteristic *characteristic, NSError *error) {
-//        NSLog(@"===characteristic name:%@",characteristic.service.UUID);
+//        DLog(@"===characteristic name:%@",characteristic.service.UUID);
 //        for (CBDescriptor *d in characteristic.descriptors) {
-//            NSLog(@"CBDescriptor name is :%@",d.UUID);
+//            DLog(@"CBDescriptor name is :%@",d.UUID);
 //        }
 //    }];
 //    //设置读取Descriptor的委托
 //    [_babyBluetooth setBlockOnReadValueForDescriptorsAtChannel:channelOnPeropheralView block:^(CBPeripheral *peripheral, CBDescriptor *descriptor, NSError *error) {
-//        NSLog(@"Descriptor name:%@ value is:%@",descriptor.characteristic.UUID, descriptor.value);
+//        DLog(@"Descriptor name:%@ value is:%@",descriptor.characteristic.UUID, descriptor.value);
 //    }];
 //    
 //    //读取rssi的委托
 //    [_babyBluetooth setBlockOnDidReadRSSI:^(NSNumber *RSSI, NSError *error) {
-//        NSLog(@"setBlockOnDidReadRSSI:RSSI:%@",RSSI);
+//        DLog(@"setBlockOnDidReadRSSI:RSSI:%@",RSSI);
 //    }];
 //    
 //    
 //    //设置beats break委托
 //    [rhythm setBlockOnBeatsBreak:^(BabyRhythm *bry) {
-//        NSLog(@"setBlockOnBeatsBreak call");
+//        DLog(@"setBlockOnBeatsBreak call");
 //        
 //        //如果完成任务，即可停止beat,返回bry可以省去使用weak rhythm的麻烦
 //        //        if (<#condition#>) {
@@ -456,17 +444,17 @@ static BLEService *_instance = nil;
 //    
 //    //设置beats over委托
 //    [rhythm setBlockOnBeatsOver:^(BabyRhythm *bry) {
-//        NSLog(@"setBlockOnBeatsOver call");
+//        DLog(@"setBlockOnBeatsOver call");
 //    }];
     
     //设置写数据成功的block
     [_babyBluetooth setBlockOnDidWriteValueForCharacteristicAtChannel:channelOnCharacteristicView block:^(CBCharacteristic *characteristic, NSError *error) {
-        NSLog(@"setBlockOnDidWriteValueForCharacteristicAtChannel characteristic:%@ and new value:%@",characteristic.UUID, characteristic.value);
+        DLog(@"setBlockOnDidWriteValueForCharacteristicAtChannel characteristic:%@ and new value:%@",characteristic.UUID, characteristic.value);
     }];
     
     //设置通知状态改变的block
     [_babyBluetooth setBlockOnDidUpdateNotificationStateForCharacteristicAtChannel:channelOnCharacteristicView block:^(CBCharacteristic *characteristic, NSError *error) {
-        NSLog(@"uid:%@,isNotifying:%@",characteristic.UUID,characteristic.isNotifying?@"on":@"off");
+        DLog(@"uid:%@,isNotifying:%@",characteristic.UUID,characteristic.isNotifying?@"on":@"off");
     }];
 }
 
@@ -477,8 +465,8 @@ static BLEService *_instance = nil;
     [_babyBluetooth notify:currPeripheral
   characteristic:notifiyCharacteristic
            block:^(CBPeripheral *peripheral, CBCharacteristic *characteristics, NSError *error) {
-               NSLog(@"notify block");
-               NSLog(@"读取的值UUID:%@",characteristics.UUID.UUIDString);
+               DLog(@"notify block");
+               DLog(@"读取的值UUID:%@",characteristics.UUID.UUIDString);
                [self dealReadData:characteristics.value];
     }];
 }
@@ -486,17 +474,28 @@ static BLEService *_instance = nil;
 //下发指令到设备
 - (void)writeOrderWithType:(BLEOrderType)orderType {
     NSData *data = [orderValues objectAtIndex:orderType];
+    if (data) {
+        NSString *str = [NSString stringWithFormat:@"下发指令-%@:%@", orderNames[orderType],[BabyToy convertDataToHexStr:data]];
+        self.startBlock(str);
+    }
     [currPeripheral writeValue:data forCharacteristic:writeCharacteristic type:CBCharacteristicWriteWithResponse];
 }
 
 //设置时间和参数
 - (void)setBLEWithType:(BLEOrderTypeSet)orderType value:(NSString *)string{
     NSData *data = [self getBLEOrderType:orderType];
+    if (data) {
+        NSString *str = [NSString stringWithFormat:@"下发指令-设置时间:%@", [BabyToy convertDataToHexStr:data]];
+        if (orderType) {
+            str = [NSString stringWithFormat:@"下发指令-设置参数:%@", [BabyToy convertDataToHexStr:data]];
+        }
+        self.startBlock(str);
+    }
     [currPeripheral writeValue:data forCharacteristic:writeCharacteristic type:CBCharacteristicWriteWithResponse];
 }
 
 - (void)dealReadData:(NSData *)readData {
-    NSLog(@"读取的值:%@",readData);
+    DLog(@"读取的值:%@",readData);
     if (readData) {
         NSString *str = [BabyToy convertDataToHexStr:readData];
         self.startBlock(str);
@@ -504,13 +503,13 @@ static BLEService *_instance = nil;
     
     //1转字符
     Byte *bytes = (Byte *)[readData bytes];
-    //    NSLog(@"读取的值:%s",bytes);
+    //    DLog(@"读取的值:%s",bytes);
     //    for(int i=0;i<[readData length];i++)
     //    {
     //        UInt16 hInt = bytes[i];
-    //        NSLog(@"------16进制-------%x",hInt);
+    //        DLog(@"------16进制-------%x",hInt);
     //        int iValue = bytes[i];
-    //        NSLog(@"------10进制-------%d",iValue);
+    //        DLog(@"------10进制-------%d",iValue);
     //    }
     int length = (int)readData.length;
     if (length<2) {
@@ -518,10 +517,10 @@ static BLEService *_instance = nil;
     }
     //开始位
     NSData *startData = [readData subdataWithRange:NSMakeRange(0, 2)];
-    NSLog(@"开始位:%@",startData);
+    DLog(@"开始位:%@",startData);
     //长度码
     int count = bytes[2];
-    NSLog(@"长度码:%d",count);
+    DLog(@"长度码:%d",count);
 //    if (length == 17 && count == 5) {//处理数据返回不对的问题
 //        readData = [readData subdataWithRange:NSMakeRange(7, 10)];
 //        bytes = (Byte *)[readData bytes];
@@ -529,18 +528,18 @@ static BLEService *_instance = nil;
 //        length = (int)readData.length;
 //    }
     if (count != length-2) {
-        NSLog(@"长度不对");
+        DLog(@"长度不对");
         return;
     }
     //校验码
     int index = 4;
     if (count > 3) {
         int hInt = bytes[3];
-        NSLog(@"校验码:%d",hInt);
+        DLog(@"校验码:%d",hInt);
     }
 //    else{
 //        index = 3;
-//        NSLog(@"没有校验码");
+//        DLog(@"没有校验码");
 //        //开始:0x53-开始测量，结束:0x56-测量结束
 //        int hInt = bytes[3];
 //        if (hInt == 83) {
@@ -581,11 +580,11 @@ static BLEService *_instance = nil;
      
      */
     //    UInt16 hOrder = bytes[index];
-    //    NSLog(@"命令码:%char",bytes[index]);
-    //    NSLog(@"命令码:%x",hOrder);
+    //    DLog(@"命令码:%char",bytes[index]);
+    //    DLog(@"命令码:%x",hOrder);
     
     NSData *oderData = [readData subdataWithRange:NSMakeRange(index, 1)];
-    NSLog(@"命令码:%@",oderData);
+    DLog(@"命令码:%@",oderData);
     
     //数据位
     int dataLength = length-index-1;
@@ -598,69 +597,109 @@ static BLEService *_instance = nil;
 //        }
         switch (oderCode) {
             case 80: {//0x50-开始测量命令后，自身气压"归零"
-                NSLog(@"------开始测量---");
+                DLog(@"------开始测量------");
             }
                 break;
             case 83:{//0x53-血压计模組确认测量中止，放气停止测量回到省電状态。并发送0x53给上位机
-                NSLog(@"------结束测量---");
+                DLog(@"------结束测量------");
             }
                 break;
             case 84:{//0x54-测量中的返回值
                 NSData *value = [readData subdataWithRange:NSMakeRange(index+1+1, 1)];
-                _currValue = [BabyToy ConvertDataToInt:value];
-                NSLog(@"数据位:%@---%d",value,_currValue);
+                int currValue = [BabyToy ConvertDataToInt:value];
+                DLog(@"数据位:%@---%d",value,currValue);
                 if (self.retuneValueBlock) {
-                    self.retuneValueBlock();
+                    self.retuneValueBlock(currValue);
                 }
             }
                 break;
             case 85:{//0x55-测量完的返回值
                 _errorCode = 0;
+                DLog(@"------测量完成------");
                 //收缩压
-                NSData *valueH = [readData subdataWithRange:NSMakeRange(index+1+1, 1)];
-                _valueHigh = [self dealBloodData:valueH];
-                NSLog(@"H数据位:%@---%d",valueH,_valueHigh);
+                NSData *valueH = [readData subdataWithRange:NSMakeRange(index+1, 2)];
+                int high = [self dealBloodData:valueH];
+                DLog(@"高压:%@---%d",valueH,_valueHigh);
                 //舒张压
-                NSData *valueL = [readData subdataWithRange:NSMakeRange(index+3+1, 1)];
-                _valueLow = [self dealBloodData:valueL];
-                NSLog(@"L数据位:%@---%d",valueL,_valueLow);
+                NSData *valueL = [readData subdataWithRange:NSMakeRange(index+2+1, 2)];
+                int low = [self dealBloodData:valueL];
+                DLog(@"低压:%@---%d",valueL,_valueLow);
                 //心率
-                NSData *valueHeart = [readData subdataWithRange:NSMakeRange(index+5, 1)];
-                _valueHeart = [BabyToy ConvertDataToInt:valueHeart];
-                NSLog(@"Heart数据位:%@---%d",valueHeart,_valueHeart);
+                NSData *valueHeart = [readData subdataWithRange:NSMakeRange(index+2+2+1, 1)];
+                int heart = [BabyToy ConvertDataToInt:valueHeart];
+                DLog(@"心率:%@---%d",valueHeart,_valueHeart);
+                self.endBlock(high, low, heart);
             }
                 break;
             case 86:{//0x56-测量出错
+                DLog(@"------测量出错------");
                 NSData *bleData = [readData subdataWithRange:NSMakeRange(index+1, 1)];
-                NSLog(@"数据位:%@",bleData);
+                DLog(@"数据位:%@",bleData);
                 _errorCode = [BabyToy ConvertDataToInt:bleData];
                 if (self.failBlock) {
                     self.failBlock();
                 }
             }
                 break;
-            case 176:{//0xB0-设置时间成功
+            case 176:{//0xB0-设置时间
+                DLog(@"设置时间成功");
+            }
+                break;
+            case 177:{//0xB1-读取时间
                 
             }
                 break;
-            case 177:{//0xB1-读取时间成功
+            case 178:{//0xB2-设置参数
+                DLog(@"设置参数成功");
+            }
+                break;
+            case 179:{//0xB3-读取参数
                 
             }
                 break;
-            case 178:{//0xB2-设置参数成功
+            case 180:{//0xB4-读取记录
+                DLog(@"------读取记录------");
                 
+                //记录条数
+                index += 1;
+                NSData *valueNo = [readData subdataWithRange:NSMakeRange(index, 1)];
+                int no = [BabyToy ConvertDataToInt:valueNo ];
+                DLog(@"记录条数:%@---%d",valueNo,no);
+                //错误码
+                index += 1;
+                NSData *valueError = [readData subdataWithRange:NSMakeRange(index, 1)];
+                int error = [BabyToy ConvertDataToInt:valueError];
+                DLog(@"错误码:%@---%d",valueError,error);
+                if (error == 0) {
+                    //收缩压
+                    index += 1;
+                    NSData *valueH = [readData subdataWithRange:NSMakeRange(index, 2)];
+                    int high = [self dealBloodData:valueH];
+                    DLog(@"收缩压:%@---%d",valueH,high);
+                    //舒张压
+                    index += 2;
+                    NSData *valueL = [readData subdataWithRange:NSMakeRange(index, 2)];
+                    int low = [self dealBloodData:valueL];
+                    DLog(@"舒张压:%@---%d",valueL,low);
+                    //心率
+                    index += 2;
+                    NSData *valueHeart = [readData subdataWithRange:NSMakeRange(index, 1)];
+                    int heart = [BabyToy ConvertDataToInt:valueHeart];
+                    DLog(@"心率:%@---%d",valueHeart,heart);
+                    //时间
+                    index += 1;
+                    NSData *valueTime = [readData subdataWithRange:NSMakeRange(index, 6)];
+                    NSString *strTime = [BabyToy convertDataToHexStr:valueTime];
+                    DLog(@"时间:%@---%@",valueHeart,strTime);
+                }
             }
                 break;
-            case 179:{//0xB3-读取参数成功
-                
+            case 181:{//0xB5-清除记录
+                DLog(@"清除记录成功");
             }
                 break;
-            case 180:{//0xB4-读取记录成功
-                
-            }
-                break;
-            case 181:{//0xB5-清除记录成功
-                
+            case 204:{//0xCC-参数错误
+                DLog(@"命令参数错误或者格式错误");
             }
                 break;
             default:
@@ -668,11 +707,11 @@ static BLEService *_instance = nil;
         }
     }
     else {
-        NSLog(@"没有数据位");
+        DLog(@"没有数据位");
     }
 }
 
-- (void)bloodPressureStartBlock:(void (^)(NSString *str))startBlock retuneValueBlock:(void (^)())retuneValueBlock disConnectBlock:(void (^)())disConnectBlock failBlock:(void (^)())failBlock endBlock:(void (^)())endBlock {
+- (void)bloodPressureStartBlock:(void (^)(NSString *str))startBlock retuneValueBlock:(void (^)(int value))retuneValueBlock disConnectBlock:(void (^)())disConnectBlock failBlock:(void (^)())failBlock endBlock:(void (^)(int high,int low,int heart))endBlock {
     self.startBlock = startBlock;
     self.retuneValueBlock = retuneValueBlock;
     self.disConnectBlock = disConnectBlock;
@@ -684,9 +723,9 @@ static BLEService *_instance = nil;
 - (int)dealBloodData:(NSData *)data {
     int result;
     NSString *string = [BabyToy convertDataToHexStr:data];
-//    if (![[string substringToIndex:1] isEqualToString:@"0"]) {
-//        string = [string stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:@"0"];
-//    }
+    if (![[string substringToIndex:1] isEqualToString:@"0"]) {
+        string = [string stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:@"0"];
+    }
     result = [BabyToy convertHexStrToInt:string];
     return result;
 }

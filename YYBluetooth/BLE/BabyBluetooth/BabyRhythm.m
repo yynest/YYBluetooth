@@ -26,11 +26,11 @@
 -(void)beats{
     
     if (isOver) {
-        NSLog(@">>>beats isOver");
+        DLog(@">>>beats isOver");
         return;
     }
     
-    NSLog(@">>>beats at :%@",[NSDate date]);
+    DLog(@">>>beats at :%@",[NSDate date]);
     if (self.beatsTimer) {
         [self.beatsTimer setFireDate: [[NSDate date]dateByAddingTimeInterval:self.beatsInterval]];
     }else{
@@ -41,14 +41,14 @@
 }
 
 -(void)beatsBreak{
-     NSLog(@">>>beatsBreak :%@",[NSDate date]);
+     DLog(@">>>beatsBreak :%@",[NSDate date]);
     [self.beatsTimer setFireDate:[NSDate distantFuture]];
     if (blockOnBeatBreak) {
         blockOnBeatBreak(self);
     }
 }
 -(void)beatsOver{
-    NSLog(@">>>beatsOver :%@",[NSDate date]);
+    DLog(@">>>beatsOver :%@",[NSDate date]);
     [self.beatsTimer setFireDate:[NSDate distantFuture]];
     isOver = YES;
     if (blockOnBeatOver) {
@@ -57,7 +57,7 @@
     
 }
 -(void)beatsRestart{
-    NSLog(@">>>beatsRestart :%@",[NSDate date]);
+    DLog(@">>>beatsRestart :%@",[NSDate date]);
     isOver = NO;
     [self beats];
 }

@@ -22,6 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.title = @"血压仪数据";
+    textView.layoutManager.allowsNonContiguousLayout = NO;
     lineNO = 1;
     [self dealBLEData];
     [[BLEService sharedInstance] writeOrderWithType:_type];
@@ -75,13 +76,13 @@
     [[BLEService sharedInstance] bloodPressureStartBlock:^(NSString *str){
 //        [SVProgressHUD showInfoWithStatus:@"开始连接血压仪"];
         [self timerAction:str];
-    }retuneValueBlock:^(){
+    }retuneValueBlock:^(int value){
         [SVProgressHUD showInfoWithStatus:@"测量数据"];
     }disConnectBlock:^(){
         [SVProgressHUD showInfoWithStatus:@"失去连接"];
     }failBlock:^(){
         [SVProgressHUD showInfoWithStatus:@"测量失败"];
-    }endBlock:^(){
+    }endBlock:^(int high,int low,int heart){
         [SVProgressHUD showInfoWithStatus:@"测量结束"];
     }];
 }

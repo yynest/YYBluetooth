@@ -46,11 +46,11 @@
 
 
 - (void)scanBloodPressure {
-    [[BLEService sharedInstance] startScanBLETime:20.0 successBlock:^() {
-//        [SVProgressHUD showInfoWithStatus:@"扫描到血压仪"];
-        [bleList removeAllObjects];
-        [bleList addObjectsFromArray:[BLEService sharedInstance].bleList];
-        [self.tableView reloadData];
+    [[BLEService sharedInstance] startScanBLETime:20.0 successBlock:^(CBPeripheral *peripheral) {
+        if (![bleList containsObject:peripheral]) {
+            [bleList addObject:peripheral];
+            [self.tableView reloadData];
+        }
     }failBlock:^(){
         [SVProgressHUD showInfoWithStatus:@"没有扫描到血压仪"];
     }];

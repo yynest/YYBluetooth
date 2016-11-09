@@ -26,22 +26,18 @@ typedef NS_ENUM(NSUInteger, BLEOrderTypeSet) {
 
 @interface BLEService : NSObject
 
-@property(nonatomic,strong)NSMutableArray *bleList;
-
 @property(nonatomic,strong)BabyBluetooth *babyBluetooth;
 
 @property(nonatomic,assign)int valueHigh;
 @property(nonatomic,assign)int valueLow;
 @property(nonatomic,assign)int valueHeart;
 @property(nonatomic,assign)int errorCode;
-@property(nonatomic,assign)int currValue;
-@property(nonatomic,assign)NSString *currData;
 
 + (instancetype)sharedInstance;
 
 //开始扫描
 - (void)startScanConnectBLE;
-- (void)startScanBLETime:(NSInteger)time successBlock:(void (^)())successBlock failBlock:(void (^)())failBlock;
+- (void)startScanBLETime:(NSInteger)time successBlock:(void (^)(CBPeripheral *peripheral))successBlock failBlock:(void (^)())failBlock;
 
 
 
@@ -56,7 +52,7 @@ typedef NS_ENUM(NSUInteger, BLEOrderTypeSet) {
 //设置时间和参数。0-设置时间:B0。1-设置参数:B2
 - (void)setBLEWithType:(BLEOrderTypeSet)orderType value:(NSString *)string;
 
-- (void)bloodPressureStartBlock:(void (^)(NSString *str))startBlock retuneValueBlock:(void (^)())retuneValueBlock disConnectBlock:(void (^)())disConnectBlock failBlock:(void (^)())failBlock endBlock:(void (^)())endBlock;
+- (void)bloodPressureStartBlock:(void (^)(NSString *str))startBlock retuneValueBlock:(void (^)(int value))retuneValueBlock disConnectBlock:(void (^)())disConnectBlock failBlock:(void (^)())failBlock endBlock:(void (^)(int high,int low,int heart))endBlock;
 
 //连接ble
 - (void)connectPeripheral:(CBPeripheral *)peripheral successBlock:(void (^)())successBlock failBlock:(void (^)())failBlock startOrderBlock:(void (^)())startOrderBlock;

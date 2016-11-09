@@ -61,6 +61,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6A2DA3DA1DD2C5D9009B7174 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		6A68861A1DD05A8D00BA36B4 /* ConnectBLETVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectBLETVC.h; sourceTree = "<group>"; };
 		6A68861B1DD05A8D00BA36B4 /* ConnectBLETVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectBLETVC.m; sourceTree = "<group>"; };
 		6A68861C1DD05A8D00BA36B4 /* ConnectBLETVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConnectBLETVC.xib; sourceTree = "<group>"; };
@@ -200,6 +201,7 @@
 				6A68861A1DD05A8D00BA36B4 /* ConnectBLETVC.h */,
 				6A68861B1DD05A8D00BA36B4 /* ConnectBLETVC.m */,
 				6A68861C1DD05A8D00BA36B4 /* ConnectBLETVC.xib */,
+				6A2DA3DA1DD2C5D9009B7174 /* PrefixHeader.pch */,
 			);
 			path = YYBluetooth;
 			sourceTree = "<group>";
@@ -632,6 +634,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = SA6BGR8N24;
+				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/YYBluetooth/PrefixHeader.pch";
 				INFOPLIST_FILE = YYBluetooth/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chinasun.YYBluetooth;
@@ -644,6 +647,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = SA6BGR8N24;
+				GCC_PREFIX_HEADER = "$(PROJECT_DIR)/YYBluetooth/PrefixHeader.pch";
 				INFOPLIST_FILE = YYBluetooth/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chinasun.YYBluetooth;

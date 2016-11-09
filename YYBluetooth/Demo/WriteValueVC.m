@@ -120,7 +120,7 @@
 
     
     
-    NSLog(@"___________设备uuid___________：%@",self.currPeripheral);
+    DLog(@"___________设备uuid___________：%@",self.currPeripheral);
     //配置ble委托
     [self babyDelegate];
     //读取服务
@@ -157,14 +157,14 @@
     __weak typeof(self)weakSelf = self;
     //设置读取characteristics的委托
     [baby setBlockOnReadValueForCharacteristicAtChannel:channelOnCharacteristicView block:^(CBPeripheral *peripheral, CBCharacteristic *characteristics, NSError *error) {
-//        NSLog(@"CharacteristicViewController===characteristic name:%@ value is:%@",characteristics.UUID,characteristics.value);
+//        DLog(@"CharacteristicViewController===characteristic name:%@ value is:%@",characteristics.UUID,characteristics.value);
         [weakSelf insertReadValues:characteristics];
     }];
     //设置发现characteristics的descriptors的委托
     [baby setBlockOnDiscoverDescriptorsForCharacteristicAtChannel:channelOnCharacteristicView block:^(CBPeripheral *peripheral, CBCharacteristic *characteristic, NSError *error) {
-//        NSLog(@"CharacteristicViewController===characteristic name:%@",characteristic.service.UUID);
+//        DLog(@"CharacteristicViewController===characteristic name:%@",characteristic.service.UUID);
         for (CBDescriptor *d in characteristic.descriptors) {
-//            NSLog(@"CharacteristicViewController CBDescriptor name is :%@",d.UUID);
+//            DLog(@"CharacteristicViewController CBDescriptor name is :%@",d.UUID);
             [weakSelf insertDescriptor:d];
         }
     }];
@@ -177,17 +177,17 @@
                 cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",descriptor.value];
             }
         }
-        NSLog(@"CharacteristicViewController Descriptor name:%@ value is:%@",descriptor.characteristic.UUID, descriptor.value);
+        DLog(@"CharacteristicViewController Descriptor name:%@ value is:%@",descriptor.characteristic.UUID, descriptor.value);
     }];
     
     //设置写数据成功的block
     [baby setBlockOnDidWriteValueForCharacteristicAtChannel:channelOnCharacteristicView block:^(CBCharacteristic *characteristic, NSError *error) {
-         NSLog(@"setBlockOnDidWriteValueForCharacteristicAtChannel characteristic:%@ and new value:%@",characteristic.UUID, characteristic.value);
+         DLog(@"setBlockOnDidWriteValueForCharacteristicAtChannel characteristic:%@ and new value:%@",characteristic.UUID, characteristic.value);
     }];
     
     //设置通知状态改变的block
     [baby setBlockOnDidUpdateNotificationStateForCharacteristicAtChannel:channelOnCharacteristicView block:^(CBCharacteristic *characteristic, NSError *error) {
-        NSLog(@"uid:%@,isNotifying:%@",characteristic.UUID,characteristic.isNotifying?@"on":@"off");
+        DLog(@"uid:%@,isNotifying:%@",characteristic.UUID,characteristic.isNotifying?@"on":@"off");
     }];
     
     
@@ -244,8 +244,8 @@
             [baby notify:self.currPeripheral
           characteristic:self.characteristic
                    block:^(CBPeripheral *peripheral, CBCharacteristic *characteristics, NSError *error) {
-                NSLog(@"notify block");
-//                NSLog(@"new value %@",characteristics.value);
+                DLog(@"notify block");
+//                DLog(@"new value %@",characteristics.value);
                 [self insertReadValues:characteristics];
             }];
         }
@@ -396,7 +396,7 @@
             //恢复状态
             if(self.characteristic.isNotifying){
                 [baby notify:self.currPeripheral characteristic:self.characteristic block:^(CBPeripheral *peripheral, CBCharacteristic *characteristics, NSError *error) {
-                    NSLog(@"resume notify block");
+                    DLog(@"resume notify block");
                     [self insertReadValues:characteristics];
                 }];
             }

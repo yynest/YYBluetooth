@@ -26,7 +26,7 @@
         myBuffer[i / 2] = (char)anInt;
     }
     NSString *unicodeString = [NSString stringWithCString:myBuffer encoding:4];
-//    NSLog(@"===字符串===%@",unicodeString);
+//    DLog(@"===字符串===%@",unicodeString);
     return unicodeString;
 }
 
@@ -138,7 +138,7 @@
     int result = 0;
     //16进制转10进制
     NSString * temp10 = [NSString stringWithFormat:@"%lu",strtoul([hexString UTF8String],0,16)];
-    NSLog(@"心跳数字 10进制 %@",temp10);
+//    DLog(@"心跳数字 10进制 %@",temp10);
     //转成数字
     result = [temp10 intValue];
     return result;
