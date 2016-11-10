@@ -66,7 +66,7 @@
 }
 
 - (void)setParameter {
-    [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetParameter value:@"08002200302200080060"];
+    [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetParameter value:@"07002100302100070060"];
 }
 
 - (void)clearCache {
