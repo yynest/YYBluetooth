@@ -170,7 +170,7 @@ static BLEService *_instance = nil;
         }
             break;
         case 1: {//设置参数 B2
-            strOrder = [NSString stringWithFormat:@"%@B2%@FFFFFFFFFFCC",strHead,string];
+            strOrder = [NSString stringWithFormat:@"%@B2%@CC",strHead,string];//230805     082305     FFFFFF 201601012359
         }
             break;
         case 2: {//清除记录:B5
@@ -511,7 +511,7 @@ static BLEService *_instance = nil;
     //        DLog(@"------10进制-------%d",iValue);
     //    }
     int length = (int)readData.length;
-    if (length<2) {
+    if (length<5) {
         return;
     }
     //开始位
@@ -687,7 +687,7 @@ static BLEService *_instance = nil;
                     DLog(@"心率:%@---%d",valueHeart,heart);
                     //时间
                     index += 1;
-                    NSData *valueTime = [readData subdataWithRange:NSMakeRange(index, 6)];
+                    NSData *valueTime = [readData subdataWithRange:NSMakeRange(index, 7)];
                     NSString *strTime = [BabyToy convertDataToHexStr:valueTime];
                     DLog(@"时间:%@---%@",valueHeart,strTime);
                 }

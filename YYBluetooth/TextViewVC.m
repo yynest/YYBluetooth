@@ -66,7 +66,15 @@
 }
 
 - (void)setParameter {
-    [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetParameter value:@"07002100302100070060"];
+    NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+    [outputFormatter setLocale:[NSLocale currentLocale]];
+    [outputFormatter setDateFormat:@"yyyyMMddHHmmss"];
+    NSDate *tomorrow = [NSDate dateWithTimeIntervalSinceNow:24 * 60 * 60];
+    NSString *str= [outputFormatter stringFromDate:tomorrow];
+    
+    NSString *order = [NSString stringWithFormat:@"230860082330FFFFFF%@",str];
+    
+    [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetParameter value:order];
 }
 
 - (void)clearCache {
@@ -100,7 +108,7 @@
         lineNO++;
         
         //缓存
-        if (!dataCount && _type == BLEOrderTypeGetCacheDate && (str.length == 36)) {
+        if (!dataCount && _type == BLEOrderTypeGetCacheDate && (str.length < 41)) {
             dataCount = [str substringWithRange:NSMakeRange(10, 2)];
             if ([dataCount isEqualToString:@"00"]) {
                 dataCount = nil;
