@@ -68,12 +68,11 @@
 - (void)setParameter {
     NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
     [outputFormatter setLocale:[NSLocale currentLocale]];
-    [outputFormatter setDateFormat:@"yyyyMMddHHmmss"];
+    [outputFormatter setDateFormat:@"yyyyMMddHHmm"];
     NSDate *tomorrow = [NSDate dateWithTimeIntervalSinceNow:24 * 60 * 60];
     NSString *str= [outputFormatter stringFromDate:tomorrow];
     
-    NSString *order = [NSString stringWithFormat:@"230860082330FFFFFF%@",str];
-    
+    NSString *order = [NSString stringWithFormat:@"082303230805FFFFFF%@",str];
     [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetParameter value:order];
 }
 
