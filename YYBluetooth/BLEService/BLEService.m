@@ -132,7 +132,7 @@ static BLEService *_instance = nil;
 //}
 
 - (void)initFidedOrderValues {
-    orderNames = @[@"停止测量",@"开始测量",@"读取时间",@"读取参数",@"读取记录",@"清除记录"];
+    orderNames = @[@"停止测量",@"开始测量",@"读取时间",@"读取参数",@"读取记录",@"BLE版本",@"设备电量"];
     orderSetNames = @[@"设置时间",@"设置参数",@"清除记录"];
     //公用的数据
     strHead = @"AA55FF";
@@ -158,7 +158,17 @@ static BLEService *_instance = nil;
     strOrder = [NSString stringWithFormat:@"%@B4%@",strHead,strTail];
     NSData *data5 = [BabyToy convertHexStrToData:strOrder];
     
-    orderValues = [[NSMutableArray alloc] initWithObjects:data1, data2, data3, data4, data5, nil];
+    
+    //BLE版本:B6
+    strOrder = [NSString stringWithFormat:@"%@B6%@",strHead,strTail];
+    NSData *data6 = [BabyToy convertHexStrToData:strOrder];
+    
+    //设备电量:C2
+    strOrder = [NSString stringWithFormat:@"%@C2%@",strHead,strTail];
+    NSData *data7 = [BabyToy convertHexStrToData:strOrder];
+
+    
+    orderValues = [[NSMutableArray alloc] initWithObjects:data1, data2, data3, data4, data5, data6, data7, nil];
 }
 
 //0-设置时间:B0。1-设置参数:B2
@@ -204,7 +214,7 @@ static BLEService *_instance = nil;
     return self;
 }
 
-- (void)startScanBLETime:(NSInteger)time successBlock:(void (^)(CBPeripheral *peripheral))successBlock failBlock:(void (^)())failBlock {
+- (void)startScanBLETime:(NSInteger)time successBlock:(void (^)(CBPeripheral *peripheral, NSString *strMac))successBlock failBlock:(void (^)())failBlock {
     self.scanSuccessBlock = successBlock;
     self.scanFailBlock = failBlock;
     [self startScanConnectBLE];
@@ -280,8 +290,8 @@ static BLEService *_instance = nil;
     //设置扫描到设备的委托
     [_babyBluetooth setBlockOnDiscoverToPeripherals:^(CBCentralManager *central, CBPeripheral *peripheral, NSDictionary *advertisementData, NSNumber *RSSI) {
         NSString *uuidStr = peripheral.identifier.UUIDString;
-        DLog(@"搜索到了设备:%@:%@，信号强度：%@",peripheral.name,uuidStr,RSSI);
-        weakSelf.scanSuccessBlock(peripheral);
+        DLog(@"搜索到了设备:%@:%@，信号强度：%@",peripheral.name,uuidStr,advertisementData);
+        weakSelf.scanSuccessBlock(peripheral,[advertisementData objectForKey:@"kCBAdvDataManufacturerData"]);
     }];
     
     //设置发现设备的Services的委托
@@ -695,6 +705,10 @@ static BLEService *_instance = nil;
                 break;
             case 181:{//0xB5-清除记录
                 DLog(@"清除记录成功");
+            }
+                break;
+            case 182:{//0xB6-版本信息
+                DLog(@"版本信息");
             }
                 break;
             case 204:{//0xCC-参数错误

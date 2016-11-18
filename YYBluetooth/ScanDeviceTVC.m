@@ -15,6 +15,7 @@
 
 @interface ScanDeviceTVC () {
     NSMutableArray *bleList;
+    NSMutableArray *macList;
 }
 
 @end
@@ -24,6 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     bleList = [[NSMutableArray alloc] init];
+    macList = [[NSMutableArray alloc] init];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -46,11 +48,17 @@
 
 
 - (void)scanBloodPressure {
-    [[BLEService sharedInstance] startScanBLETime:20.0 successBlock:^(CBPeripheral *peripheral) {
+    [[BLEService sharedInstance] startScanBLETime:20.0 successBlock:^(CBPeripheral *peripheral, NSString *strMac) {
         if (![bleList containsObject:peripheral]) {
             [bleList addObject:peripheral];
-            [self.tableView reloadData];
         }
+        if (![macList containsObject:strMac] && strMac) {
+            [macList addObject:strMac];
+            if (bleList.count == macList.count) {
+                [self.tableView reloadData];
+            }
+        }
+        
     }failBlock:^(){
         [SVProgressHUD showInfoWithStatus:@"没有扫描到血压仪"];
     }];
@@ -76,8 +84,8 @@
     if (!name) {
         name = @"未命名";
     }
-    cell.textLabel.text = [NSString stringWithFormat:@"%@, 信号强度：%@",name,peripheral.RSSI];
-    cell.detailTextLabel.text = peripheral.identifier.UUIDString;
+    cell.textLabel.text = [NSString stringWithFormat:@"%@",name];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",macList[row]];
     return cell;
 }
 

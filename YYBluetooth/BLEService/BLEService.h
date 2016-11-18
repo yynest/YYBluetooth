@@ -16,6 +16,8 @@ typedef NS_ENUM(NSUInteger, BLEOrderType) {
     BLEOrderTypeGetTime,      //读取时间
     BLEOrderTypeGetParameter, //读取参数
     BLEOrderTypeGetCacheDate, //读取缓存数据
+    BLEOrderTypeGetVersion,   //BLE版本
+    BLEOrderTypeGetBattery,   //设备电量
 };
 
 typedef NS_ENUM(NSUInteger, BLEOrderTypeSet) {
@@ -34,7 +36,7 @@ typedef NS_ENUM(NSUInteger, BLEOrderTypeSet) {
 
 //开始扫描
 - (void)startScanConnectBLE;
-- (void)startScanBLETime:(NSInteger)time successBlock:(void (^)(CBPeripheral *peripheral))successBlock failBlock:(void (^)())failBlock;
+- (void)startScanBLETime:(NSInteger)time successBlock:(void (^)(CBPeripheral *peripheral, NSString *strMac))successBlock failBlock:(void (^)())failBlock;
 
 
 

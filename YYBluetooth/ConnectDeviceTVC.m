@@ -29,7 +29,7 @@
     [self.view addSubview:baseTableView];
     
     
-    orderList = @[@"停止测量",@"开始测量",@"读取时间",@"读取参数",@"读取缓存数据"];
+    orderList = @[@"停止测量",@"开始测量",@"读取时间",@"读取参数",@"读取缓存数据",@"BLE版本",@"设备电量"];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -79,7 +79,7 @@
     }
     
     NSInteger row = indexPath.row;
-    if (row == 0 || row == 5) {
+    if (row == 0) {
         cell.textLabel.textColor = [UIColor grayColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
@@ -90,7 +90,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger row = indexPath.row;
-    if (row == 0 || row == 5) {
+    if (row == 0) {
         return;
     }
     TextViewVC *vc = [[TextViewVC alloc] init];
