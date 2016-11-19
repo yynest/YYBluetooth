@@ -41,7 +41,9 @@
         }
             break;
         case BLEOrderTypeGetParameter: {
-            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"设置参数" style:UIBarButtonItemStylePlain target:self action:@selector(setParameter)];
+            UIBarButtonItem *barClose = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(closeParameter)];
+            UIBarButtonItem *barSet = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStylePlain target:self action:@selector(setParameter)];
+            self.navigationItem.rightBarButtonItems = @[barClose,barSet];
         }
             break;
         case BLEOrderTypeGetCacheDate: {
@@ -63,6 +65,11 @@
     [outputFormatter setDateFormat:@"yyyyMMddHHmmss"];
     NSString *str= [outputFormatter stringFromDate:[NSDate date]];
     [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetTime value:str];
+}
+
+- (void)closeParameter {
+    NSString *order = [NSString stringWithFormat:@"FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"];
+    [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetParameter value:order];
 }
 
 - (void)setParameter {

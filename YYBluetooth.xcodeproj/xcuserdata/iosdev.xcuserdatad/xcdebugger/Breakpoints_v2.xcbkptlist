@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YYBluetooth/BLEService/BLEService.m"
-            timestampString = "501138636.349217"
+            timestampString = "501218826.3939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "591"
-            endingLineNumber = "591"
+            startingLineNumber = "602"
+            endingLineNumber = "602"
             landmarkName = "-dealReadData:"
             landmarkType = "7">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YYBluetooth/BLEService/BLEService.m"
-            timestampString = "501138636.349217"
+            timestampString = "501218826.3939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "490"
-            endingLineNumber = "490"
+            startingLineNumber = "496"
+            endingLineNumber = "496"
             landmarkName = "-writeOrderWithType:"
             landmarkType = "7">
          </BreakpointContent>
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YYBluetooth/BLEService/BLEService.m"
-            timestampString = "501138636.349217"
+            timestampString = "501218826.3939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "629"
-            endingLineNumber = "629"
+            startingLineNumber = "640"
+            endingLineNumber = "640"
             landmarkName = "-dealReadData:"
             landmarkType = "7">
          </BreakpointContent>
@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YYBluetooth/TextViewVC.m"
-            timestampString = "500555837.074848"
+            timestampString = "501218365.705352"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "-setParameter"
             landmarkType = "7">
          </BreakpointContent>
@@ -249,13 +249,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YYBluetooth/BLEService/BLEService.m"
-            timestampString = "501138636.349217"
+            filePath = "YYBluetooth/TextViewVC.m"
+            timestampString = "501218324.794331"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
-            landmarkName = "-getBLEOrderType:value:"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "-closeParameter"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YYBluetooth/BLEService/BLEService.m"
+            timestampString = "501219031.543062"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "512"
+            endingLineNumber = "512"
+            landmarkName = "-setBLEWithType:value:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -158,7 +158,6 @@ static BLEService *_instance = nil;
     strOrder = [NSString stringWithFormat:@"%@B4%@",strHead,strTail];
     NSData *data5 = [BabyToy convertHexStrToData:strOrder];
     
-    
     //BLE版本:B6
     strOrder = [NSString stringWithFormat:@"%@B6%@",strHead,strTail];
     NSData *data6 = [BabyToy convertHexStrToData:strOrder];
@@ -291,7 +290,9 @@ static BLEService *_instance = nil;
     [_babyBluetooth setBlockOnDiscoverToPeripherals:^(CBCentralManager *central, CBPeripheral *peripheral, NSDictionary *advertisementData, NSNumber *RSSI) {
         NSString *uuidStr = peripheral.identifier.UUIDString;
         DLog(@"搜索到了设备:%@:%@，信号强度：%@",peripheral.name,uuidStr,advertisementData);
-        weakSelf.scanSuccessBlock(peripheral,[advertisementData objectForKey:@"kCBAdvDataManufacturerData"]);
+        if (weakSelf.scanSuccessBlock) {
+            weakSelf.scanSuccessBlock(peripheral,[advertisementData objectForKey:@"kCBAdvDataManufacturerData"]);
+        }
     }];
     
     //设置发现设备的Services的委托
@@ -416,7 +417,10 @@ static BLEService *_instance = nil;
                 }
                 if (notifiyCharacteristic && writeCharacteristic) {
                     [SVProgressHUD showInfoWithStatus:@"可以开始测量血压"];
-                    weakSelf.startOrderBlock();
+                    if (weakSelf.startOrderBlock) {
+                        weakSelf.startOrderBlock();
+                    }
+                    
                 }
             }
         }
@@ -488,7 +492,9 @@ static BLEService *_instance = nil;
     NSData *data = [orderValues objectAtIndex:orderType];
     if (data) {
         NSString *str = [NSString stringWithFormat:@"下发指令-%@:%@", orderNames[orderType],[BabyToy convertDataToHexStr:data]];
-        self.startBlock(str);
+        if (self.startBlock) {
+            self.startBlock(str);
+        }
     }
     [currPeripheral writeValue:data forCharacteristic:writeCharacteristic type:CBCharacteristicWriteWithResponse];
 }
@@ -498,7 +504,9 @@ static BLEService *_instance = nil;
     NSData *data = [self getBLEOrderType:orderType value:string];
     if (data) {
         NSString *str = [NSString stringWithFormat:@"下发指令-%@:%@", orderSetNames[orderType],[BabyToy convertDataToHexStr:data]];
-        self.startBlock(str);
+        if (self.startBlock) {
+            self.startBlock(str);
+        }
     }
     [currPeripheral writeValue:data forCharacteristic:writeCharacteristic type:CBCharacteristicWriteWithResponse];
 }
@@ -507,7 +515,9 @@ static BLEService *_instance = nil;
     DLog(@"读取的值:%@",readData);
     if (readData) {
         NSString *str = [BabyToy convertDataToHexStr:readData];
-        self.startBlock(str);
+        if (self.startBlock) {
+            self.startBlock(str);
+        }
     }
     
     //1转字符
@@ -637,7 +647,9 @@ static BLEService *_instance = nil;
                 NSData *valueHeart = [readData subdataWithRange:NSMakeRange(index+2+2+1, 1)];
                 int heart = [BabyToy ConvertDataToInt:valueHeart];
                 DLog(@"心率:%@---%d",valueHeart,heart);
-                self.endBlock(high, low, heart);
+                if (self.endBlock) {
+                    self.endBlock(high, low, heart);
+                }
             }
                 break;
             case 86:{//0x56-测量出错
