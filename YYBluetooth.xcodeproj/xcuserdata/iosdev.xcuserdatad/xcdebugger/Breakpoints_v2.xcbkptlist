@@ -234,7 +234,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YYBluetooth/TextViewVC.m"
-            timestampString = "501218365.705352"
+            timestampString = "501487947.384114"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "82"
@@ -256,22 +256,6 @@
             startingLineNumber = "72"
             endingLineNumber = "72"
             landmarkName = "-closeParameter"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "YYBluetooth/BLEService/BLEService.m"
-            timestampString = "501219031.543062"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "512"
-            endingLineNumber = "512"
-            landmarkName = "-setBLEWithType:value:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -79,7 +79,8 @@
     NSDate *tomorrow = [NSDate dateWithTimeIntervalSinceNow:24 * 60 * 60];
     NSString *str= [outputFormatter stringFromDate:tomorrow];
     
-    NSString *order = [NSString stringWithFormat:@"082303230805FFFFFF%@",str];
+    NSString *order = [NSString stringWithFormat:@"072130212360000760%@",str];
+//  071503152305000705
     [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetParameter value:order];
 }
 
