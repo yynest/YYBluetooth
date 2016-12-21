@@ -9,11 +9,13 @@
 #import "TextViewVC.h"
 #import "SVProgressHUD.h"
 
-@interface TextViewVC () {
+@interface TextViewVC ()<UIAlertViewDelegate> {
     
     __weak IBOutlet UITextView *textView;
     int lineNO;
     NSString *dataCount;
+    
+    NSString *timeInterval;
 }
 
 @end
@@ -22,6 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    timeInterval = @"02";
     self.navigationController.title = @"血压仪数据";
     textView.layoutManager.allowsNonContiguousLayout = NO;
     lineNO = 1;
@@ -42,8 +45,9 @@
             break;
         case BLEOrderTypeGetParameter: {
             UIBarButtonItem *barClose = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(closeParameter)];
-            UIBarButtonItem *barSet = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStylePlain target:self action:@selector(setParameter)];
-            self.navigationItem.rightBarButtonItems = @[barClose,barSet];
+            UIBarButtonItem *barSet = [[UIBarButtonItem alloc] initWithTitle:@"默认" style:UIBarButtonItemStylePlain target:self action:@selector(setParameter)];
+            UIBarButtonItem *barCustom = [[UIBarButtonItem alloc] initWithTitle:@"自定义" style:UIBarButtonItemStylePlain target:self action:@selector(setCustomParameter)];
+            self.navigationItem.rightBarButtonItems = @[barClose,barSet,barCustom];
         }
             break;
         case BLEOrderTypeGetCacheDate: {
@@ -82,6 +86,41 @@
     NSString *order = [NSString stringWithFormat:@"072130212360000760%@",str];
 //  071503152305000705
     [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetParameter value:order];
+}
+
+- (void)setCustomParameter {
+    //自己定义一个UITextField添加上去，后来发现ios5自带了此功能
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"自定义测量间隔时间" message:@" " delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定",nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert textFieldAtIndex:0].text = timeInterval;
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        //得到输入框
+        UITextField *tf = [alertView textFieldAtIndex:0];
+        int value = [tf.text intValue];
+        if (value<1 || value>60) {
+            [SVProgressHUD showInfoWithStatus:@"间隔时间为:1-60"];
+        }
+        else {
+            timeInterval = tf.text;
+            if (value<10 && timeInterval.length<2) {
+                timeInterval = [NSString stringWithFormat:@"0%@",timeInterval];
+            }
+            
+            NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+            [outputFormatter setLocale:[NSLocale currentLocale]];
+            [outputFormatter setDateFormat:@"yyyyMMddHHmm"];
+            NSDate *tomorrow = [NSDate dateWithTimeIntervalSinceNow:24 * 60 * 60];
+            NSString *str= [outputFormatter stringFromDate:tomorrow];
+            
+            NSString *order = [NSString stringWithFormat:@"0721%@2123%@0007%@%@",timeInterval,timeInterval,timeInterval,str];
+            //  071503152305000705
+            [[BLEService sharedInstance] setBLEWithType:BLEOrderTypeSetParameter value:order];
+        }
+    }
 }
 
 - (void)clearCache {
