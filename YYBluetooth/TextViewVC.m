@@ -90,7 +90,7 @@
 
 - (void)setCustomParameter {
     //自己定义一个UITextField添加上去，后来发现ios5自带了此功能
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"自定义测量间隔时间" message:@" " delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定",nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"自定义间隔时间为:1-60" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定",nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alert textFieldAtIndex:0].text = timeInterval;
     [alert show];
