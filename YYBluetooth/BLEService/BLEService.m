@@ -7,9 +7,7 @@
 //
 
 #import "BLEService.h"
-#import "PeripheralInfo.h"
 #import "SVProgressHUD.h"
-#import "UserDefaultsHelper.h"
 
 #define channelOnPeropheralView @"peripheralView"
 #define channelOnCharacteristicView @"CharacteristicView"
