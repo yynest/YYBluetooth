@@ -43,22 +43,22 @@
 }
 
 -(void)timerTask{
-    //    NSLog(@"timerTask");
+    //    DLog(@"timerTask");
 //    [self.currPeripheral readRSSI];
 }
 
 //导航右侧按钮点击
 -(void)navRightBtnClick:(id)sender{
-    NSLog(@"navRightBtnClick");
+    DLog(@"navRightBtnClick");
 //    [self.tableView reloadData];
 //    [self readPlantAssistantData];
     NSArray *peripherals = [baby findConnectedPeripherals];
-    NSLog(@"peripherals is :%@",peripherals);
+    DLog(@"peripherals is :%@",peripherals);
 }
 
 //退出时断开连接
 -(void)viewDidDisappear:(BOOL)animated{
-    NSLog(@"viewWillDisappear");
+    DLog(@"viewWillDisappear");
 }
 
 
@@ -76,13 +76,13 @@
     
     //设置设备连接失败的委托
     [baby setBlockOnFailToConnectAtChannel:channelOnPeropheralView block:^(CBCentralManager *central, CBPeripheral *peripheral, NSError *error) {
-        NSLog(@"设备：%@--连接失败",peripheral.name);
+        DLog(@"设备：%@--连接失败",peripheral.name);
         [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"设备：%@--连接失败",peripheral.name]];
     }];
 
     //设置设备断开连接的委托
     [baby setBlockOnDisconnectAtChannel:channelOnPeropheralView block:^(CBCentralManager *central, CBPeripheral *peripheral, NSError *error) {
-        NSLog(@"设备：%@--断开连接",peripheral.name);
+        DLog(@"设备：%@--断开连接",peripheral.name);
         [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"设备：%@--断开失败",peripheral.name]];
     }];
     
@@ -97,36 +97,36 @@
     }];
     //设置发现设service的Characteristics的委托
     [baby setBlockOnDiscoverCharacteristicsAtChannel:channelOnPeropheralView block:^(CBPeripheral *peripheral, CBService *service, NSError *error) {
-        NSLog(@"===service name:%@",service.UUID);
+        DLog(@"===service name:%@",service.UUID);
         //插入row到tableview
         [weakSelf insertRowToTableView:service];
         
     }];
     //设置读取characteristics的委托
     [baby setBlockOnReadValueForCharacteristicAtChannel:channelOnPeropheralView block:^(CBPeripheral *peripheral, CBCharacteristic *characteristics, NSError *error) {
-        NSLog(@"characteristic name:%@ value is:%@",characteristics.UUID,characteristics.value);
+        DLog(@"characteristic name:%@ value is:%@",characteristics.UUID,characteristics.value);
     }];
     //设置发现characteristics的descriptors的委托
     [baby setBlockOnDiscoverDescriptorsForCharacteristicAtChannel:channelOnPeropheralView block:^(CBPeripheral *peripheral, CBCharacteristic *characteristic, NSError *error) {
-        NSLog(@"===characteristic name:%@",characteristic.service.UUID);
+        DLog(@"===characteristic name:%@",characteristic.service.UUID);
         for (CBDescriptor *d in characteristic.descriptors) {
-            NSLog(@"CBDescriptor name is :%@",d.UUID);
+            DLog(@"CBDescriptor name is :%@",d.UUID);
         }
     }];
     //设置读取Descriptor的委托
     [baby setBlockOnReadValueForDescriptorsAtChannel:channelOnPeropheralView block:^(CBPeripheral *peripheral, CBDescriptor *descriptor, NSError *error) {
-        NSLog(@"Descriptor name:%@ value is:%@",descriptor.characteristic.UUID, descriptor.value);
+        DLog(@"Descriptor name:%@ value is:%@",descriptor.characteristic.UUID, descriptor.value);
     }];
     
     //读取rssi的委托
     [baby setBlockOnDidReadRSSI:^(NSNumber *RSSI, NSError *error) {
-        NSLog(@"setBlockOnDidReadRSSI:RSSI:%@",RSSI);
+        DLog(@"setBlockOnDidReadRSSI:RSSI:%@",RSSI);
     }];
     
     
     //设置beats break委托
     [rhythm setBlockOnBeatsBreak:^(BabyRhythm *bry) {
-        NSLog(@"setBlockOnBeatsBreak call");
+        DLog(@"setBlockOnBeatsBreak call");
         
         //如果完成任务，即可停止beat,返回bry可以省去使用weak rhythm的麻烦
 //        if (<#condition#>) {
@@ -137,7 +137,7 @@
     
     //设置beats over委托
     [rhythm setBlockOnBeatsOver:^(BabyRhythm *bry) {
-        NSLog(@"setBlockOnBeatsOver call");
+        DLog(@"setBlockOnBeatsOver call");
     }];
     
     //扫描选项->CBCentralManagerScanOptionAllowDuplicatesKey:忽略同一个Peripheral端的多个发现事件被聚合成一个发现事件
@@ -164,7 +164,7 @@
 
 #pragma mark -插入table数据
 -(void)insertSectionToTableView:(CBService *)service{
-    NSLog(@"搜索到服务:%@",service.UUID.UUIDString);
+    DLog(@"搜索到服务:%@",service.UUID.UUIDString);
     PeripheralInfo *info = [[PeripheralInfo alloc]init];
     [info setServiceUUID:service.UUID];
     [self.services addObject:info];
@@ -188,10 +188,10 @@
             [info.characteristics addObject:c];
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:sect];
             [indexPaths addObject:indexPath];
-            NSLog(@"add indexpath in row:%d, sect:%d",row,sect);
+            DLog(@"add indexpath in row:%d, sect:%d",row,sect);
         }
         PeripheralInfo *curInfo =[self.services objectAtIndex:sect];
-        NSLog(@"%@",curInfo.characteristics);
+        DLog(@"%@",curInfo.characteristics);
         [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
         
     }

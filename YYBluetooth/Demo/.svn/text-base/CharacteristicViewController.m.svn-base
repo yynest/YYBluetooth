@@ -33,7 +33,7 @@
     readValueArray = [[NSMutableArray alloc]init];
     descriptors = [[NSMutableArray alloc]init];
     
-    NSLog(@"___________设备uuid___________：%@",self.currPeripheral);
+    DLog(@"___________设备uuid___________：%@",self.currPeripheral);
     //配置ble委托
     [self babyDelegate];
     //读取服务
@@ -70,14 +70,14 @@
     __weak typeof(self)weakSelf = self;
     //设置读取characteristics的委托
     [baby setBlockOnReadValueForCharacteristicAtChannel:channelOnCharacteristicView block:^(CBPeripheral *peripheral, CBCharacteristic *characteristics, NSError *error) {
-//        NSLog(@"CharacteristicViewController===characteristic name:%@ value is:%@",characteristics.UUID,characteristics.value);
+//        DLog(@"CharacteristicViewController===characteristic name:%@ value is:%@",characteristics.UUID,characteristics.value);
         [weakSelf insertReadValues:characteristics];
     }];
     //设置发现characteristics的descriptors的委托
     [baby setBlockOnDiscoverDescriptorsForCharacteristicAtChannel:channelOnCharacteristicView block:^(CBPeripheral *peripheral, CBCharacteristic *characteristic, NSError *error) {
-//        NSLog(@"CharacteristicViewController===characteristic name:%@",characteristic.service.UUID);
+//        DLog(@"CharacteristicViewController===characteristic name:%@",characteristic.service.UUID);
         for (CBDescriptor *d in characteristic.descriptors) {
-//            NSLog(@"CharacteristicViewController CBDescriptor name is :%@",d.UUID);
+//            DLog(@"CharacteristicViewController CBDescriptor name is :%@",d.UUID);
             [weakSelf insertDescriptor:d];
         }
     }];
@@ -90,17 +90,17 @@
                 cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",descriptor.value];
             }
         }
-        NSLog(@"CharacteristicViewController Descriptor name:%@ value is:%@",descriptor.characteristic.UUID, descriptor.value);
+        DLog(@"CharacteristicViewController Descriptor name:%@ value is:%@",descriptor.characteristic.UUID, descriptor.value);
     }];
     
     //设置写数据成功的block
     [baby setBlockOnDidWriteValueForCharacteristicAtChannel:channelOnCharacteristicView block:^(CBCharacteristic *characteristic, NSError *error) {
-         NSLog(@"setBlockOnDidWriteValueForCharacteristicAtChannel characteristic:%@ and new value:%@",characteristic.UUID, characteristic.value);
+         DLog(@"setBlockOnDidWriteValueForCharacteristicAtChannel characteristic:%@ and new value:%@",characteristic.UUID, characteristic.value);
     }];
     
     //设置通知状态改变的block
     [baby setBlockOnDidUpdateNotificationStateForCharacteristicAtChannel:channelOnCharacteristicView block:^(CBCharacteristic *characteristic, NSError *error) {
-        NSLog(@"uid:%@,isNotifying:%@",characteristic.UUID,characteristic.isNotifying?@"on":@"off");
+        DLog(@"uid:%@,isNotifying:%@",characteristic.UUID,characteristic.isNotifying?@"on":@"off");
     }];
     
     
@@ -117,37 +117,37 @@
 }
 
 - (void)dealReadData:(NSData *)readData {
-    NSLog(@"读取的值:%@",readData);
+    DLog(@"读取的值:%@",readData);
     //1转字符
     Byte *bytes = (Byte *)[readData bytes];
-//    NSLog(@"读取的值:%s",bytes);
+//    DLog(@"读取的值:%s",bytes);
 //    for(int i=0;i<[readData length];i++)
 //    {
 //        UInt16 hInt = bytes[i];
-//        NSLog(@"------16进制-------%x",hInt);
+//        DLog(@"------16进制-------%x",hInt);
 //        int iValue = bytes[i];
-//        NSLog(@"------10进制-------%d",iValue);
+//        DLog(@"------10进制-------%d",iValue);
 //    }
     int length = (int)readData.length;
     //开始位
     NSData *startData = [readData subdataWithRange:NSMakeRange(0, 2)];
-    NSLog(@"开始位:%@",startData);
+    DLog(@"开始位:%@",startData);
     //长度码
     int count = bytes[2];
-    NSLog(@"长度码:%d",count);
+    DLog(@"长度码:%d",count);
     if (count != length-2) {
-        NSLog(@"长度不对");
+        DLog(@"长度不对");
         return;
     }
     //校验码
     int index = 4;
     if (count > 3) {
         int hInt = bytes[3];
-        NSLog(@"校验码:%d",hInt);
+        DLog(@"校验码:%d",hInt);
     }
     else{
         index = 3;
-        NSLog(@"没有校验码");
+        DLog(@"没有校验码");
         //开始:0x53-开始测量，结束:0x56-测量结束
         int hInt = bytes[3];
         if (hInt == 83) {
@@ -161,11 +161,11 @@
     
     //命令码，类型:(0x54-测量中的返回值，0x55-测量完的返回值，0x56-测量出错),
 //    UInt16 hOrder = bytes[index];
-//    NSLog(@"命令码:%char",bytes[index]);
-//    NSLog(@"命令码:%x",hOrder);
+//    DLog(@"命令码:%char",bytes[index]);
+//    DLog(@"命令码:%x",hOrder);
     
     NSData *oderData = [readData subdataWithRange:NSMakeRange(index, 1)];
-    NSLog(@"命令码:%@",oderData);
+    DLog(@"命令码:%@",oderData);
     
     //数据位
     int dataLength = length-index-1;
@@ -174,32 +174,32 @@
         switch (oderCode) {
             case 84:{//0x54-测量中的返回值
                 NSData *value = [readData subdataWithRange:NSMakeRange(index+1, 2)];
-                NSLog(@"数据位:%@",value);
+                DLog(@"数据位:%@",value);
                 int errorCode = [BabyToy ConvertDataToInt:value];
-                NSLog(@"数据位:%d",errorCode);
+                DLog(@"数据位:%d",errorCode);
             }
                 break;
             case 85:{//0x55-测量完的返回值
                 //收缩压
                 NSData *valueH = [readData subdataWithRange:NSMakeRange(index+1, 2)];
-                NSLog(@"数据位:%@",valueH);
+                DLog(@"数据位:%@",valueH);
                 int valueh = [BabyToy ConvertDataToInt:valueH];
-                NSLog(@"数据位:%d",valueh);
+                DLog(@"数据位:%d",valueh);
                 //舒张压
                 NSData *valueL = [readData subdataWithRange:NSMakeRange(index+3, 2)];
-                NSLog(@"数据位:%@",valueL);
+                DLog(@"数据位:%@",valueL);
                 int valuel = [BabyToy ConvertDataToInt:valueL];
-                NSLog(@"数据位:%d",valuel);
+                DLog(@"数据位:%d",valuel);
                 //心率
                 NSData *valueHeart = [readData subdataWithRange:NSMakeRange(index+5, 2)];
-                NSLog(@"数据位:%@",valueHeart);
+                DLog(@"数据位:%@",valueHeart);
                 int heart = [BabyToy ConvertDataToInt:valueHeart];
-                NSLog(@"数据位:%d",heart);
+                DLog(@"数据位:%d",heart);
             }
                 break;
             case 86:{//0x56-测量出错
                 NSData *bleData = [readData subdataWithRange:NSMakeRange(index+1, 1)];
-                NSLog(@"数据位:%@",bleData);
+                DLog(@"数据位:%@",bleData);
                 int errorCode = [BabyToy ConvertDataToInt:bleData];
                 [SVProgressHUD showInfoWithStatus:errorList[errorCode-1]];
             }
@@ -209,13 +209,13 @@
         }
     }
     else {
-        NSLog(@"没有数据位");
+        DLog(@"没有数据位");
     }
 }
 
 //插入读取的值
 -(void)insertReadValues:(CBCharacteristic *)characteristics{
-    NSLog(@"读取的值UUID:%@",characteristics.UUID.UUIDString);
+    DLog(@"读取的值UUID:%@",characteristics.UUID.UUIDString);
     
     [self dealReadData:characteristics.value];
     
@@ -223,15 +223,15 @@
 //    int length = (int)data.length;
 //    char b1[length];
 //    [data getBytes:b1 length:length];
-//    NSLog(@"读取的值:%s",b1);
+//    DLog(@"读取的值:%s",b1);
     
     //转字符串
 //    NSString *hexString = [NSString stringWithFormat:@"%@",data];
-//    NSLog(@"读取的值hexString:%@",hexString);
+//    DLog(@"读取的值hexString:%@",hexString);
     
     //转整数
 //    int intValue = [BabyToy ConvertDataToInt:data];
-//    NSLog(@"读取的值intValue:%d",intValue);
+//    DLog(@"读取的值intValue:%d",intValue);
     
     
     [self->readValueArray addObject:[NSString stringWithFormat:@"%@",characteristics.value]];
@@ -275,8 +275,8 @@
             [baby notify:self.currPeripheral
           characteristic:self.characteristic
                    block:^(CBPeripheral *peripheral, CBCharacteristic *characteristics, NSError *error) {
-                NSLog(@"notify block");
-//                NSLog(@"new value %@",characteristics.value);
+                DLog(@"notify block");
+//                DLog(@"new value %@",characteristics.value);
                 [self insertReadValues:characteristics];
             }];
         }
@@ -427,7 +427,7 @@
             //恢复状态
             if(self.characteristic.isNotifying){
                 [baby notify:self.currPeripheral characteristic:self.characteristic block:^(CBPeripheral *peripheral, CBCharacteristic *characteristics, NSError *error) {
-                    NSLog(@"resume notify block");
+                    DLog(@"resume notify block");
                     [self insertReadValues:characteristics];
                 }];
             }

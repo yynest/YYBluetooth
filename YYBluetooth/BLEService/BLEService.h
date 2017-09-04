@@ -51,7 +51,7 @@ typedef NS_ENUM(NSUInteger, BLEOrderTypeSet) {
 //设置时间和参数。0-设置时间:B0。1-设置参数:B2
 - (void)setBLEWithType:(BLEOrderTypeSet)orderType value:(NSString *)string;
 
-- (void)bloodPressureStartBlock:(void (^)(NSString *str))startBlock retuneValueBlock:(void (^)(int value))retuneValueBlock disConnectBlock:(void (^)())disConnectBlock failBlock:(void (^)(int errorCode))failBlock endBlock:(void (^)(int high,int low,int heart))endBlock;
+- (void)bloodPressureStartBlock:(void (^)(NSString *str))startBlock retuneValueBlock:(void (^)(int value, int orderType))retuneValueBlock disConnectBlock:(void (^)())disConnectBlock failBlock:(void (^)(int errorCode))failBlock endBlock:(void (^)(int high,int low,int heart))endBlock;
 
 //连接ble
 - (void)connectPeripheral:(CBPeripheral *)peripheral successBlock:(void (^)())successBlock failBlock:(void (^)())failBlock startOrderBlock:(void (^)())startOrderBlock;

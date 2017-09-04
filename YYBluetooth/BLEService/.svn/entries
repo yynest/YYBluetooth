@@ -1,14 +1,14 @@
 10
 
 dir
-7043
-http://xiangf@192.168.1.95:8443/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/iOS/trunk/QianShanJY/Classes/Services/BLEService
+14706
+http://xiangf@192.168.1.95:8443/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/iOS/trunk/YYBluetooth/YYBluetooth/BLEService
 http://xiangf@192.168.1.95:8443/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B
 
 
 
-2016-10-14T08:07:37.583234Z
-6531
+2017-08-15T07:43:53.845412Z
+14126
 xiangf
 
 
@@ -32,10 +32,10 @@ file
 
 
 
-2016-10-26T00:48:42.000000Z
-6cc01f1ebff5e8949ba308863c0a9092
-2016-06-14T03:49:48.980904Z
-4630
+2017-08-15T04:39:37.000000Z
+7b2219dfd2bddf72ae9d672d7cdd1864
+2017-08-15T07:43:53.845412Z
+14126
 xiangf
 
 
@@ -58,7 +58,7 @@ xiangf
 
 
 
-1292
+1939
 
 BLEService.m
 file
@@ -66,10 +66,10 @@ file
 
 
 
-2016-10-26T00:48:42.000000Z
-64a986ba0e8ff39d2feecb4093265b40
-2016-10-14T08:07:37.583234Z
-6531
+2017-08-15T04:40:10.000000Z
+c7e5ae35a6105dd47bca3ea6a0dbf43d
+2017-08-15T07:43:53.845412Z
+14126
 xiangf
 
 
@@ -92,5 +92,5 @@ xiangf
 
 
 
-20932
+30782
 

@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "3EFE5FD8FEEC25968D074E762FCF210B3B3E1740",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "9169C3CC5117A77072ADAF6ED275E907D155A121" : 9223372036854775807,
+    "3EFE5FD8FEEC25968D074E762FCF210B3B3E1740" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "57E896EE-6FDA-49AF-BB61-D9BA0DD41552",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "9169C3CC5117A77072ADAF6ED275E907D155A121" : "",
+    "3EFE5FD8FEEC25968D074E762FCF210B3B3E1740" : "YYBluetooth\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "YYBluetooth",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "YYBluetooth.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/yynest\/YYBluetooth.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3EFE5FD8FEEC25968D074E762FCF210B3B3E1740"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/yynest\/Test.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9169C3CC5117A77072ADAF6ED275E907D155A121"
+    }
+  ]
+}

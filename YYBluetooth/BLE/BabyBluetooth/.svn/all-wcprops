@@ -1,101 +1,101 @@
 K 25
 svn:wc:ra_dav:version-url
-V 109
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/6359/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth
+V 107
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth
 END
 BabyPeripheralManager.m
 K 25
 svn:wc:ra_dav:version-url
-V 133
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/2457/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth/BabyPeripheralManager.m
+V 131
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth/BabyPeripheralManager.m
 END
 BabyOptions.h
 K 25
 svn:wc:ra_dav:version-url
-V 123
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/2457/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth/BabyOptions.h
+V 121
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth/BabyOptions.h
 END
 BabyCallback.h
 K 25
 svn:wc:ra_dav:version-url
-V 124
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/2457/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth/BabyCallback.h
+V 122
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth/BabyCallback.h
 END
 BabySpeaker.m
 K 25
 svn:wc:ra_dav:version-url
-V 123
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/2457/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth/BabySpeaker.m
+V 121
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth/BabySpeaker.m
 END
 BabyOptions.m
 K 25
 svn:wc:ra_dav:version-url
-V 123
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/2457/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth/BabyOptions.m
+V 121
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth/BabyOptions.m
 END
 BabyCallback.m
 K 25
 svn:wc:ra_dav:version-url
-V 124
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/2457/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth/BabyCallback.m
+V 122
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth/BabyCallback.m
 END
 BabyBluetooth.h
 K 25
 svn:wc:ra_dav:version-url
-V 125
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/6359/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth/BabyBluetooth.h
+V 123
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth/BabyBluetooth.h
 END
 BabyBluetooth.m
 K 25
 svn:wc:ra_dav:version-url
-V 125
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/6359/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth/BabyBluetooth.m
+V 123
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth/BabyBluetooth.m
 END
 BabyToy.h
 K 25
 svn:wc:ra_dav:version-url
-V 119
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/6194/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth/BabyToy.h
+V 117
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth/BabyToy.h
 END
 BabyRhythm.h
 K 25
 svn:wc:ra_dav:version-url
-V 122
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/2457/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth/BabyRhythm.h
-END
-BabyToy.m
-K 25
-svn:wc:ra_dav:version-url
-V 119
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/6194/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth/BabyToy.m
+V 120
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth/BabyRhythm.h
 END
 BabyRhythm.m
 K 25
 svn:wc:ra_dav:version-url
-V 122
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/5583/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth/BabyRhythm.m
+V 120
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth/BabyRhythm.m
+END
+BabyToy.m
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth/BabyToy.m
 END
 BabyCentralManager.h
 K 25
 svn:wc:ra_dav:version-url
-V 130
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/2457/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth/BabyCentralManager.h
+V 128
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth/BabyCentralManager.h
 END
 BabyPeripheralManager.h
 K 25
 svn:wc:ra_dav:version-url
-V 133
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/2457/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth/BabyPeripheralManager.h
+V 131
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth/BabyPeripheralManager.h
 END
 BabyCentralManager.m
 K 25
 svn:wc:ra_dav:version-url
-V 130
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/3341/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth/BabyCentralManager.m
+V 128
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth/BabyCentralManager.m
 END
 BabySpeaker.h
 K 25
 svn:wc:ra_dav:version-url
-V 123
-/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/2457/iOS/trunk/QianShanJY/Classes/Vendor/BLE/BabyBluetooth/BabySpeaker.h
+V 121
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/BLE/BabyBluetooth/BabySpeaker.h
 END

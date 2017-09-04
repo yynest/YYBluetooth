@@ -28,7 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSLog(@"viewDidLoad");
+    DLog(@"viewDidLoad");
     [SVProgressHUD showInfoWithStatus:@"准备打开设备"];
     
     //初始化其他数据 init other
@@ -45,12 +45,12 @@
 }
 
 -(void)timerTask{
-//    NSLog(@"timerTask");
+//    DLog(@"timerTask");
 
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    NSLog(@"viewDidAppear");
+    DLog(@"viewDidAppear");
     //停止之前的连接
     [baby cancelAllPeripheralsConnection];
     //设置委托后直接可以使用，无需等待CBCentralManagerStatePoweredOn状态。
@@ -59,7 +59,7 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-    NSLog(@"viewWillDisappear");
+    DLog(@"viewWillDisappear");
 }
 
 #pragma mark -蓝牙配置和操作
@@ -76,14 +76,14 @@
     
     //设置扫描到设备的委托
     [baby setBlockOnDiscoverToPeripherals:^(CBCentralManager *central, CBPeripheral *peripheral, NSDictionary *advertisementData, NSNumber *RSSI) {
-        NSLog(@"搜索到了设备:%@",peripheral.name);
+        DLog(@"搜索到了设备:%@",peripheral.name);
         [weakSelf insertTableView:peripheral advertisementData:advertisementData];
     }];
     
     //设置发现设备的Services的委托
     [baby setBlockOnDiscoverServices:^(CBPeripheral *peripheral, NSError *error) {
         for (CBService *service in peripheral.services) {
-            NSLog(@"搜索到服务:%@",service.UUID.UUIDString);
+            DLog(@"搜索到服务:%@",service.UUID.UUIDString);
         }
         //找到cell并修改detaisText
         for (int i=0;i<peripherals.count;i++) {
@@ -95,25 +95,25 @@
     }];
     //设置发现设service的Characteristics的委托
     [baby setBlockOnDiscoverCharacteristics:^(CBPeripheral *peripheral, CBService *service, NSError *error) {
-        NSLog(@"===service name:%@",service.UUID);
+        DLog(@"===service name:%@",service.UUID);
         for (CBCharacteristic *c in service.characteristics) {
-            NSLog(@"charateristic name is :%@",c.UUID);
+            DLog(@"charateristic name is :%@",c.UUID);
         }
     }];
     //设置读取characteristics的委托
     [baby setBlockOnReadValueForCharacteristic:^(CBPeripheral *peripheral, CBCharacteristic *characteristics, NSError *error) {
-        NSLog(@"characteristic name:%@ value is:%@",characteristics.UUID,characteristics.value);
+        DLog(@"characteristic name:%@ value is:%@",characteristics.UUID,characteristics.value);
     }];
     //设置发现characteristics的descriptors的委托
     [baby setBlockOnDiscoverDescriptorsForCharacteristic:^(CBPeripheral *peripheral, CBCharacteristic *characteristic, NSError *error) {
-        NSLog(@"===characteristic name:%@",characteristic.service.UUID);
+        DLog(@"===characteristic name:%@",characteristic.service.UUID);
         for (CBDescriptor *d in characteristic.descriptors) {
-            NSLog(@"CBDescriptor name is :%@",d.UUID);
+            DLog(@"CBDescriptor name is :%@",d.UUID);
         }
     }];
     //设置读取Descriptor的委托
     [baby setBlockOnReadValueForDescriptors:^(CBPeripheral *peripheral, CBDescriptor *descriptor, NSError *error) {
-        NSLog(@"Descriptor name:%@ value is:%@",descriptor.characteristic.UUID, descriptor.value);
+        DLog(@"Descriptor name:%@ value is:%@",descriptor.characteristic.UUID, descriptor.value);
     }];
     
 
@@ -129,11 +129,11 @@
 
     
     [baby setBlockOnCancelAllPeripheralsConnectionBlock:^(CBCentralManager *centralManager) {
-        NSLog(@"setBlockOnCancelAllPeripheralsConnectionBlock");
+        DLog(@"setBlockOnCancelAllPeripheralsConnectionBlock");
     }];
        
     [baby setBlockOnCancelScanBlock:^(CBCentralManager *centralManager) {
-        NSLog(@"setBlockOnCancelScanBlock");
+        DLog(@"setBlockOnCancelScanBlock");
     }];
     
     

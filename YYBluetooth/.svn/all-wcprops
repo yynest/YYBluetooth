@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/14126/iOS/trunk/YYBluetooth/YYBluetooth
+END
+main.m
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/main.m
+END
+ConnectBLETVC.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/ConnectBLETVC.h
+END
+PrefixHeader.pch
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/PrefixHeader.pch
+END
+ConnectDeviceTVC.m
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/14126/iOS/trunk/YYBluetooth/YYBluetooth/ConnectDeviceTVC.m
+END
+ConnectBLETVC.m
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/ConnectBLETVC.m
+END
+Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/14126/iOS/trunk/YYBluetooth/YYBluetooth/Info.plist
+END
+TextViewVC.xib
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/TextViewVC.xib
+END
+UserDefaultsHelper.h
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/UserDefaultsHelper.h
+END
+TextViewVC.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/TextViewVC.h
+END
+TestViewController.xib
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/14126/iOS/trunk/YYBluetooth/YYBluetooth/TestViewController.xib
+END
+UserDefaultsHelper.m
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/UserDefaultsHelper.m
+END
+AppDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/AppDelegate.h
+END
+TextViewVC.m
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/14126/iOS/trunk/YYBluetooth/YYBluetooth/TextViewVC.m
+END
+TestViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/14126/iOS/trunk/YYBluetooth/YYBluetooth/TestViewController.h
+END
+AppDelegate.m
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/AppDelegate.m
+END
+ScanDeviceTVC.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/ScanDeviceTVC.h
+END
+TestViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/14126/iOS/trunk/YYBluetooth/YYBluetooth/TestViewController.m
+END
+ConnectBLETVC.xib
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/ConnectBLETVC.xib
+END
+ScanDeviceTVC.m
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/ScanDeviceTVC.m
+END
+ConnectDeviceTVC.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/%E5%8D%83%E5%B1%B1%E9%99%8D%E5%8E%8B/!svn/ver/8673/iOS/trunk/YYBluetooth/YYBluetooth/ConnectDeviceTVC.h
+END

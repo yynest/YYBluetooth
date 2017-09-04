@@ -392,7 +392,6 @@ static BLEService *_instance = nil;
     
     //设置发现设备的Services的委托
     [_babyBluetooth setBlockOnDiscoverServicesAtChannel:channelOnPeropheralView block:^(CBPeripheral *peripheral, NSError *error) {
-        
         [rhythm beats];
     }];
     
@@ -418,7 +417,6 @@ static BLEService *_instance = nil;
                     if (weakSelf.startOrderBlock) {
                         weakSelf.startOrderBlock();
                     }
-                    
                 }
             }
         }
@@ -494,7 +492,12 @@ static BLEService *_instance = nil;
             self.startBlock(str);
         }
     }
-    [currPeripheral writeValue:data forCharacteristic:writeCharacteristic type:CBCharacteristicWriteWithResponse];
+    if (writeCharacteristic) {
+        [currPeripheral writeValue:data forCharacteristic:writeCharacteristic type:CBCharacteristicWriteWithResponse];
+    }
+    else {
+        [SVProgressHUD showInfoWithStatus:@"writeCharacteristic 为空"];
+    }
 }
 
 //设置时间和参数
@@ -506,7 +509,12 @@ static BLEService *_instance = nil;
             self.startBlock(str);
         }
     }
-    [currPeripheral writeValue:data forCharacteristic:writeCharacteristic type:CBCharacteristicWriteWithResponse];
+    if (writeCharacteristic) {
+        [currPeripheral writeValue:data forCharacteristic:writeCharacteristic type:CBCharacteristicWriteWithResponse];
+    }
+    else {
+        [SVProgressHUD showInfoWithStatus:@"writeCharacteristic 为空"];
+    }
 }
 
 - (void)dealReadData:(NSData *)readData {
@@ -721,6 +729,14 @@ static BLEService *_instance = nil;
                 DLog(@"版本信息");
             }
                 break;
+            case 194:{//0xC2-电量
+                NSData *value = [readData subdataWithRange:NSMakeRange(index+2, 1)];
+                int count = [BabyToy ConvertDataToInt:value];
+                if (self.retuneValueBlock) {
+                    self.retuneValueBlock(count,oderCode);
+                }
+            }
+                break;
             case 204:{//0xCC-参数错误
                 DLog(@"命令参数错误或者格式错误");
             }
@@ -734,7 +750,7 @@ static BLEService *_instance = nil;
     }
 }
 
-- (void)bloodPressureStartBlock:(void (^)(NSString *str))startBlock retuneValueBlock:(void (^)(int value))retuneValueBlock disConnectBlock:(void (^)())disConnectBlock failBlock:(void (^)(int errorCode))failBlock endBlock:(void (^)(int high,int low,int heart))endBlock {
+- (void)bloodPressureStartBlock:(void (^)(NSString *str))startBlock retuneValueBlock:(void (^)(int value, int orderType))retuneValueBlock disConnectBlock:(void (^)())disConnectBlock failBlock:(void (^)(int errorCode))failBlock endBlock:(void (^)(int high,int low,int heart))endBlock {
     self.startBlock = startBlock;
     self.retuneValueBlock = retuneValueBlock;
     self.disConnectBlock = disConnectBlock;

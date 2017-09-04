@@ -80,14 +80,14 @@ typedef NS_ENUM(NSUInteger, BabySpeakerType) {
     if (channel) {
         if ([self callbackOnChnnel:channel]) {
             currChannel = channel;
-            NSLog(@">>>已切换到%@",channel);
+            DLog(@">>>已切换到%@",channel);
         }
         else{
-            NSLog(@">>>所要切换的channel不存在");
+            DLog(@">>>所要切换的channel不存在");
         }
     }else{
         currChannel = defaultChannel;
-            NSLog(@">>>已切换到默认频道");
+            DLog(@">>>已切换到默认频道");
     }
     
     
